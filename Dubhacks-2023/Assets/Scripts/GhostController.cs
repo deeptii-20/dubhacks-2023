@@ -24,7 +24,7 @@ public class GhostController : MonoBehaviour
 
     // health
     public float maxHealth;
-    private float currHealth;
+    public float currHealth;
 
     // combat
     public float baseAttack;
@@ -44,15 +44,13 @@ public class GhostController : MonoBehaviour
     private Vector2 currDirection;
     private float currMovementTime;
 
-    // Dialogue gameObject (for peaceful behvior)
-    public GameObject Dialogue;
-
     // Player gameObject (for chase navigation)
     public GameObject Player;
     public float attackRange;
     public float aggroRange;
-    public float interactRange;
 
+    // UI Manager
+    public GameObject UIManager;
 
     // Start is called before the first frame update
     void Start()
@@ -64,9 +62,10 @@ public class GhostController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // if health >= 0, switch to peaceful
+        // if health >= 0, switch to peaceful and show dialogue
         if (currHealth <= 0.0f) {
             currState = GhostState.Peaceful;
+            UIManager.GetComponent<UIManager>().ShowEnemyDialogue("Please take me to the cemetery.", this.gameObject);
         }
 
         // change behavior based on current state
@@ -81,7 +80,6 @@ public class GhostController : MonoBehaviour
                 }
                 break;
             case GhostState.Aggravated:
-                
                 if (playerInAttackRange()) {
                     // if player is in attack range, attack
                     Attack();
@@ -95,14 +93,7 @@ public class GhostController : MonoBehaviour
                 }                
                 break;
             case GhostState.Peaceful:
-                if (playerInInteractRange()) {
-                    // TODO: if player is nearby, show interaction prompt
-                    if (Input.GetAxis("Interact") > 0) {
-                        // if player chooses to interact, show dialogue box
-                        Debug.Log("interact with enemy");
-                        Dialogue.SetActive(true);
-                    }
-                }
+                // if paceful, do nothing
                 break;
         }
     }
@@ -113,10 +104,6 @@ public class GhostController : MonoBehaviour
 
     bool playerInAggroRange() {
         return Vector2.Distance((Vector2)Player.transform.position, (Vector2)transform.position) <= aggroRange;
-    }
-
-    bool playerInInteractRange() {
-        return Vector2.Distance((Vector2)Player.transform.position, (Vector2)transform.position) <= interactRange;
     }
 
     public void TakeDamage(float damage) {
@@ -165,13 +152,5 @@ public class GhostController : MonoBehaviour
             // wait for attack cooldown to end
             currAttackCooldown -= Time.deltaTime;
         }
-    }
-
-    void Interact() {
-        if (currState != GhostState.Peaceful) {
-            // only interact if peaceful
-            return;
-        }
-
     }
 }
