@@ -6,33 +6,36 @@ public class PlayerController : MonoBehaviour
 {
     public float moveSpeed = 5.0f; // Adjust the movement speed as needed.
     private Rigidbody2D rb;
-    private Transform tr;
 
+    // Player variables
     private Vector2 facingDirection;
 
     // Dragging variables
-    private static float DRAG_RADIUS = 1.0f;
-    private static LayerMask DRAG_MASK;
-    private bool isDragging;
+    private static float START_DRAG_RADUS = 1.0f;
+    private static float STOP_DRAG_RADIUS = 1.2f; // > start radius
+    private static LayerMask DRAG_MASK; // Objects on Moveable layer
+    private Rigidbody2D draggedRb; // whatever we're dragging, if any
+    private Vector2 playerPrevPos;
 
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        tr = GetComponent<Transform>();
 
         DRAG_MASK = LayerMask.GetMask("Moveable");
-        isDragging = false;
         facingDirection = new Vector2(0, -1);
     }
 
     private void Update()
     {
-        UpdateDrag();
+        UpdateDragIdentity();
     }
 
     private void FixedUpdate()
     {
         UpdateMove();
+
+        // Drag goes after player movement update.
+        UpdateDragMovement();
     }
 
     private void UpdateMove()
@@ -55,29 +58,57 @@ public class PlayerController : MonoBehaviour
         rb.velocity = moveInput * moveSpeed;
     }
 
-    private void UpdateDrag()
+
+    ///// DRAGGING RELATED STUFF
+    private void UpdateDragMovement()
     {
-        if (Input.GetButtonDown("Drag"))
+        if (draggedRb != null)
         {
-            // TODO: Check if we're in front of something
-            Debug.Log("Drag");
-            Debug.Log(facingDirection);
-            isDragging = !isDragging;
-            IsFacingMoveableObject();
+            // Stop drag if too far away;
+            if (Vector2.Distance(rb.position, draggedRb.position) > STOP_DRAG_RADIUS)
+            {
+                draggedRb = null;
+            } else
+            {
+                // Move dragged rb according to player position
+                draggedRb.position += (rb.position - playerPrevPos);
+                playerPrevPos = rb.position;
+            }
         }
     }
 
-    private void IsFacingMoveableObject()
+    private void UpdateDragIdentity()
     {
-        Vector2 origin = tr.position;
+        if (Input.GetButtonDown("Drag"))
+        {
+            // Drag whatever object we're facing, or don't if not facing anything.
+            // Also stop dragging if we're facing the object we're currently dragging.
+            Rigidbody2D res = GetFacingMoveableObject();
+            if (res == null || res == draggedRb)
+            {
+                // Stop dragging
+                draggedRb = null;
+            } else
+            {
+                // Start dragging
+                draggedRb = res;
+                playerPrevPos = rb.position;
+            }
+        }
+    }
+
+    private Rigidbody2D GetFacingMoveableObject()
+    {
+        Vector2 origin = rb.position;
         // Cast a ray in the facing direction.
-        RaycastHit2D hit = Physics2D.Raycast(origin, facingDirection, DRAG_RADIUS, DRAG_MASK);
+        RaycastHit2D hit = Physics2D.Raycast(origin, facingDirection, START_DRAG_RADUS, DRAG_MASK);
+        Rigidbody2D res = null;
         // Check if the ray hits something.
         if (hit.collider != null)
         {
-            Debug.Log("Ray hit: " + hit.collider.gameObject.name);
-
-            // You can perform actions or interactions with the object that was hit.
+            // Debug.Log("hit" + hit.collider.gameObject.name);
+            res = hit.rigidbody;
         }
+        return res;
     }
 }
