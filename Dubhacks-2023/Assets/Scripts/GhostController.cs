@@ -40,8 +40,9 @@ public class GhostController : MonoBehaviour
         Vector2.left,
         Vector2.right,
     };
+    public float[] possibleMovementTimes = {0.1f, 0.5f};
     private Vector2 currDirection;
-    private float currDirectionTime;
+    private float currMovementTime;
 
     // UI gameObjects
     public GameObject InteractionPrompt;
@@ -87,6 +88,7 @@ public class GhostController : MonoBehaviour
                     Attack();
                 } else if (playerInAggroRange()) {
                     // else if player is in aggro range, chase
+                    currAttackCooldown = baseAttackCooldown / 3;
                     Chase();
                 } else {
                     // else switch to angry
@@ -119,12 +121,12 @@ public class GhostController : MonoBehaviour
 
     void Wander() {
         // if old movement has finished, pick a new direction and move
-        if (currDirectionTime <= 0) {
+        if (currMovementTime <= 0) {
             currDirection = possibleDirections[Random.Range(0, possibleDirections.Length)];
-            currDirectionTime = Random.Range(0.1f, 0.5f);
+            currMovementTime = Random.Range(possibleMovementTimes[0], possibleMovementTimes[1]);
         }
         transform.Translate(currDirection * Time.deltaTime * baseSpeed);
-        currDirectionTime -= Time.deltaTime;
+        currMovementTime -= Time.deltaTime;
     }
 
     void Chase() {
