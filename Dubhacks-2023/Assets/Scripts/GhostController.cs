@@ -70,7 +70,7 @@ public class GhostController : MonoBehaviour
         // if health >= 0, switch to peaceful and show dialogue
         if (currHealth <= 0.0f) {
             currState = GhostState.Peaceful;
-            UIManager.GetComponent<UIManager>().ShowEnemyDialogue("Please take me to the cemetery.", this.gameObject);
+            StartCoroutine(UIManager.GetComponent<UIManager>().ShowEnemyDialogue("Please take me to the cemetery.", this.gameObject));
         }
 
         // change behavior based on current state
@@ -113,6 +113,10 @@ public class GhostController : MonoBehaviour
 
     public void TakeDamage(float damage) {
         currHealth -= damage;
+    }
+
+    public void Die() {
+        Destroy(this.gameObject);
     }
 
     void Wander() {
@@ -158,4 +162,5 @@ public class GhostController : MonoBehaviour
             currAttackCooldown -= Time.deltaTime;
         }
     }
+
 }

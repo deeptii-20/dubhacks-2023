@@ -15,7 +15,6 @@ public class UIManager : MonoBehaviour
     public GameObject GameOverlay;
     public GameObject EnemyDialogue;
     public GameObject VillagerDialogue;
-    public Dictionary<UIType, GameObject> UI;
 
     public UIType currUI;
     public bool isPaused;
@@ -27,12 +26,6 @@ public class UIManager : MonoBehaviour
         EnemyDialogue.SetActive(false);
         VillagerDialogue.SetActive(false);
 
-        UI = new Dictionary<UIType, GameObject>()
-        {
-            { UIType.Default, GameOverlay },
-            { UIType.EnemyDialogue, EnemyDialogue },
-            { UIType.VillagerDialogue, VillagerDialogue },
-        };
         currUI = UIType.Default;
         isPaused = false;
     }
@@ -43,30 +36,45 @@ public class UIManager : MonoBehaviour
 
     }
 
-    public void ShowEnemyDialogue(string dialogueText, GameObject enemy) {
+    public IEnumerator ShowEnemyDialogue(string dialogueText, GameObject enemy) {
         currUI = UIType.EnemyDialogue;
-        StartCoroutine(ShowDialogue(dialogueText, enemy));
-    }
-
-    IEnumerator ShowDialogue(string dialogueText, GameObject enemy) {
-        // wait 1.5 sec
-        yield return new WaitForSeconds(1.0f);
-
-        // show dialogue box
-        UI[currUI].transform.Find("Dialogue Text").gameObject.GetComponent<TMP_Text>().text = dialogueText;
-        UI[currUI].SetActive(true);
         isPaused = true;
+
+        // wait 0.5 sec, then show dialogue box
+        yield return new WaitForSeconds(0.5f);
+        EnemyDialogue.transform.Find("Dialogue Text").gameObject.GetComponent<TMP_Text>().text = dialogueText;
+        EnemyDialogue.SetActive(true);
 
         // wait for users to select an option -> hide dialogue box and act accordingly
         while (true) {
-            if (Input.GetAxis("Positive") > 0) {
-                UI[currUI].SetActive(false);
+            if (Input.GetAxis("Submit") > 0) {
+                EnemyDialogue.SetActive(false);
                 // play capture animation
                 break;
             }
-             if (Input.GetAxis("Negative") > 0) {
-                UI[currUI].SetActive(false);
-                Destroy(enemy);
+            if (Input.GetAxis("Cancel") > 0) {
+                EnemyDialogue.SetActive(false);
+                enemy.GetComponent<GhostController>().Die();
+                break;
+            }
+            yield return null;
+        }
+        yield return null;
+    }
+
+    public IEnumerator ShowVillagerDialogue(string dialogueText, GameObject villager) {
+        currUI = UIType.VillagerDialogue;
+        isPaused = true;
+
+        // wait 0.5 sec, then show dialogue box
+        yield return new WaitForSeconds(0.5f);
+        VillagerDialogue.transform.Find("Dialogue Text").gameObject.GetComponent<TMP_Text>().text = dialogueText;
+        VillagerDialogue.SetActive(true);
+
+        // wait for users to select an option -> hide dialogue box
+        while (true) {
+            if (Input.GetAxis("Submit") > 0) {
+                VillagerDialogue.SetActive(false);
                 break;
             }
             yield return null;
