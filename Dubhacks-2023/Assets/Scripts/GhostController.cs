@@ -18,29 +18,46 @@ public enum GhostState {
 
 public class GhostController : MonoBehaviour
 {
-    // base ghost state
+    // behavior states
     public GhostState defaultState = GhostState.Angry;
+    public GhostState currState;
+
+    // health
     public float maxHealth;
-    public float baseSpeed;
-    public float baseAttack;
-    public Vector2[] possibleDirections;
-
-    // curr ghost state
-    private GhostState currState;
     private float currHealth;
-    private Vector2 currDirection;
 
-    // UI objects
+    // combat
+    public float baseAttack;
+    public float baseAttackDuration;
+    public float baseAttackCooldown;
+    private float currAttackCooldown;
+
+    // movement
+    public float baseSpeed;
+    public Vector2[] possibleDirections = {
+        Vector2.up,
+        Vector2.down,
+        Vector2.left,
+        Vector2.right,
+    };
+    private Vector2 currDirection;
+    private float currDirectionTime;
+
+    // UI gameObjects
     public GameObject InteractionPrompt;
     public GameObject Dialogue;
 
     // Player gameObject (for chase navigation)
     public GameObject Player;
+    public float attackRange;
+    public float aggroRange;
+    public float interactRange;
 
 
     // Start is called before the first frame update
     void Start()
     {
+        currState = defaultState;
         currHealth = maxHealth;
     }
 
@@ -89,21 +106,25 @@ public class GhostController : MonoBehaviour
     }
 
     bool playerInAttackRange() {
-        return false;
+        return Vector2.Distance((Vector2)Player.transform.position, (Vector2)transform.position) <= attackRange;
     }
 
     bool playerInAggroRange() {
-        return false;
+        return Vector2.Distance((Vector2)Player.transform.position, (Vector2)transform.position) <= aggroRange;
     }
 
     bool playerInInteractRange() {
-        return false;
+        return Vector2.Distance((Vector2)Player.transform.position, (Vector2)transform.position) <= interactRange;
     }
 
     void Wander() {
-        // pick a random direction and move
-        currDirection = Random.Range(0.0f, 1.0f) > 0.7f ? currDirection : possibleDirections[Random.Range(0, possibleDirections.Length)];
+        // if old movement has finished, pick a new direction and move
+        if (currDirectionTime <= 0) {
+            currDirection = possibleDirections[Random.Range(0, possibleDirections.Length)];
+            currDirectionTime = Random.Range(0.1f, 0.5f);
+        }
         transform.Translate(currDirection * Time.deltaTime * baseSpeed);
+        currDirectionTime -= Time.deltaTime;
     }
 
     void Chase() {
@@ -125,6 +146,18 @@ public class GhostController : MonoBehaviour
         if (currState != GhostState.Aggravated) {
             // only attack if aggravated
             return;
+        }
+        if (currAttackCooldown <= 0) {
+            // start attack
+            GameObject attackObj = transform.Find("Attack").gameObject;
+            attackObj.GetComponent<GhostAttack>().SetAttackDuration(baseAttackDuration);
+            attackObj.SetActive(true);
+
+            // reset attack cooldown
+            currAttackCooldown = baseAttackCooldown;
+        } else {
+            // wait for attack cooldown to end
+            currAttackCooldown -= Time.deltaTime;
         }
     }
 
