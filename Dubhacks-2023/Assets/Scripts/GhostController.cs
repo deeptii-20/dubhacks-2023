@@ -62,6 +62,11 @@ public class GhostController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // if paused, do nothing
+        if (UIManager.GetComponent<UIManager>().isPaused) {
+            return;
+        }
+
         // if health >= 0, switch to peaceful and show dialogue
         if (currHealth <= 0.0f) {
             currState = GhostState.Peaceful;

@@ -45,24 +45,31 @@ public class UIManager : MonoBehaviour
 
     public void ShowEnemyDialogue(string dialogueText, GameObject enemy) {
         currUI = UIType.EnemyDialogue;
-        StartCoroutine(ShowDialogue(dialogueText));
+        StartCoroutine(ShowDialogue(dialogueText, enemy));
     }
 
-    IEnumerator ShowDialogue(string dialogueText) {
+    IEnumerator ShowDialogue(string dialogueText, GameObject enemy) {
+        // wait 1.5 sec
+        yield return new WaitForSeconds(1.0f);
+
+        // show dialogue box
         UI[currUI].transform.Find("Dialogue Text").gameObject.GetComponent<TMP_Text>().text = dialogueText;
         UI[currUI].SetActive(true);
         isPaused = true;
 
-        // wait for users to select an option
+        // wait for users to select an option -> hide dialogue box and act accordingly
         while (true) {
-            if (Input.GetAxis("Yes") > 0) {
-                Debug.Log("Selected yes");
+            if (Input.GetAxis("Positive") > 0) {
+                UI[currUI].SetActive(false);
+                // play capture animation
                 break;
             }
-            if (Input.GetAxis("No") > 0) {
-                Debug.Log("Selected no");
+             if (Input.GetAxis("Negative") > 0) {
+                UI[currUI].SetActive(false);
+                Destroy(enemy);
                 break;
             }
+            yield return null;
         }
         yield return null;
     }
