@@ -7,8 +7,6 @@ public class PlayerController : MonoBehaviour
     public float moveSpeed = 5.0f; // Adjust the movement speed as needed.
     private Rigidbody2D rb;
 
-    // key mappings
-    private KeyCode DRAG_KEY = KeyCode.R;
 
     // State variables
     private bool isDragging;
@@ -22,7 +20,8 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        
+        UpdateDrag();
+
     }
 
     private void FixedUpdate()
@@ -47,9 +46,10 @@ public class PlayerController : MonoBehaviour
 
     private void UpdateDrag()
     {
-        if (Input.GetKeyDown(DRAG_KEY))
+        if (Input.GetButtonDown("Drag"))
         {
             // TODO: Check if we're in front of something
+            Debug.Log("Drag");
             isDragging = !isDragging;
         }
     }
