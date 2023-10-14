@@ -4,14 +4,34 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    public float moveSpeed = 5f;
+    public float moveSpeed = 5.0f; // Adjust the movement speed as needed.
+    private Rigidbody2D rb;
+    private Vector2 moveInput;
+
+    private void Start()
+    {
+        rb = GetComponent<Rigidbody2D>();
+    }
 
     private void Update()
     {
-        float horizontalInput = Input.GetAxis("Horizontal");
-        float verticalInput = Input.GetAxis("Vertical");
+        
+    }
 
-        Vector3 moveDirection = new Vector3(horizontalInput, verticalInput, 0f).normalized;
-        transform.position += moveDirection * moveSpeed * Time.deltaTime;
+    private void FixedUpdate()
+    {
+        // Get input from the player (arrow keys or WASD)
+        moveInput.x = Input.GetAxisRaw("Horizontal");
+        moveInput.y = Input.GetAxisRaw("Vertical");
+
+        Debug.Log("h: " + Input.GetAxisRaw("Horizontal"));
+        Debug.Log(Input.GetAxisRaw("Vertical"));
+
+
+        // Normalize the input vector to ensure equal movement speed in all directions
+        moveInput.Normalize();
+
+        // Apply velocity to the Rigidbody to move the player
+        rb.velocity = moveInput * moveSpeed;
     }
 }
