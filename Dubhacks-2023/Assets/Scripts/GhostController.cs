@@ -44,8 +44,7 @@ public class GhostController : MonoBehaviour
     private Vector2 currDirection;
     private float currMovementTime;
 
-    // UI gameObjects
-    public GameObject InteractionPrompt;
+    // Dialogue gameObject (for peaceful behvior)
     public GameObject Dialogue;
 
     // Player gameObject (for chase navigation)
@@ -97,10 +96,11 @@ public class GhostController : MonoBehaviour
                 break;
             case GhostState.Peaceful:
                 if (playerInInteractRange()) {
-                    // if player is nearby, show interaction prompt
-                    if (Input.GetAxis("Interact") >= 0) {
+                    // TODO: if player is nearby, show interaction prompt
+                    if (Input.GetAxis("Interact") > 0) {
                         // if player chooses to interact, show dialogue box
                         Debug.Log("interact with enemy");
+                        Dialogue.SetActive(true);
                     }
                 }
                 break;
@@ -117,6 +117,10 @@ public class GhostController : MonoBehaviour
 
     bool playerInInteractRange() {
         return Vector2.Distance((Vector2)Player.transform.position, (Vector2)transform.position) <= interactRange;
+    }
+
+    public void TakeDamage(float damage) {
+        currHealth -= damage;
     }
 
     void Wander() {

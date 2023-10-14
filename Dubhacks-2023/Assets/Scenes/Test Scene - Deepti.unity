@@ -427,6 +427,9 @@ MonoBehaviour:
   - {x: 0, y: -1}
   - {x: -1, y: 0}
   - {x: 1, y: 0}
+  possibleMovementTimes:
+  - 0.1
+  - 0.5
   InteractionPrompt: {fileID: 161538219}
   Dialogue: {fileID: 161538219}
   Player: {fileID: 161538219}
