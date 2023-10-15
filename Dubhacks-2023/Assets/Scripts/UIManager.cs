@@ -36,6 +36,11 @@ public class UIManager : MonoBehaviour
 
     }
 
+    public void UpdateGameOverlay(float currHealth, int numCapturedGhosts) {
+        GameOverlay.transform.Find("Health Text").GetComponent<TMP_Text>().text = "Health: " + currHealth;
+        GameOverlay.transform.Find("Ghosts Text").GetComponent<TMP_Text>().text = "Ghosts: " + numCapturedGhosts;
+    }
+
     public IEnumerator ShowEnemyDialogue(string dialogueText, GameObject enemy, GameObject player) {
         currUI = UIType.EnemyDialogue;
         isPaused = true;

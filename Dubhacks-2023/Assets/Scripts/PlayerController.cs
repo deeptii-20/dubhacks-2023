@@ -12,8 +12,8 @@ public class PlayerController : MonoBehaviour
     public float baseHealthDrain;
     public float baseHealthDrainCooldown;
     private float currHealth;
-    private float numCapturedGhosts;
     private float currHealthDrainCooldown;
+    private int numCapturedGhosts;
 
     // combat
     public float attackDamage;
@@ -62,6 +62,8 @@ public class PlayerController : MonoBehaviour
             currHealth -= baseHealthDrain * numCapturedGhosts;
         }
         currHealthDrainCooldown -= Time.deltaTime;
+
+        UIManager.GetComponent<UIManager>().UpdateGameOverlay(currHealth, numCapturedGhosts);
     }
 
     private void FixedUpdate()
