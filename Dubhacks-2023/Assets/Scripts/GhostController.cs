@@ -161,11 +161,6 @@ public class GhostController : MonoBehaviour
         }
     }
 
-    public void Die() {
-        // TODO: play death animation
-        Destroy(this.gameObject);
-    }
-
     void OnTriggerEnter2D(Collider2D collider)
     {
         // take damage from player attacks

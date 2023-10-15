@@ -83,9 +83,11 @@ public class OldManController : MonoBehaviour
                 if (!hasGhosts) {
                     return introNoGhostsMonument;
                 }
+                introMonument[introMonument.Length - 1] = introMonument[introMonument.Length - 1].Replace("#", "" + (totalNumGhosts - numCapturedGhosts));
                 return introMonument;
             case OldManState.GhostChecking:
                 if (hasGhosts) {
+                    hasGhostsMonument[hasGhostsMonument.Length - 1] = hasGhostsMonument[hasGhostsMonument.Length - 1].Replace("#", "" + (totalNumGhosts - numCapturedGhosts));
                     return hasGhostsMonument;
                 }
                 return noGhostsMonument;

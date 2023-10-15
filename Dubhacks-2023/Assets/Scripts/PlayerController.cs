@@ -206,7 +206,14 @@ public class PlayerController : MonoBehaviour
                             this.gameObject
                         ));
                         break;
-                    default:
+                    case "Enemy":
+                        if (res.gameObject.GetComponent<GhostController>().currState == GhostState.Peaceful) {
+                            StartCoroutine(UIManager.GetComponent<UIManager>().ShowOneResponseDialogue(
+                                res.gameObject.GetComponent<GhostController>().dialogue,
+                                res.gameObject,
+                                this.gameObject
+                            ));
+                        }
                         break;
                 }
             }

@@ -595,30 +595,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1634037218, guid: c5ec968fa6a4d134cad8a01cbeaa33d7, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2028697917, guid: c5ec968fa6a4d134cad8a01cbeaa33d7, type: 3}
-      propertyPath: m_Name
-      value: Flavor Text
-      objectReference: {fileID: 0}
-    - target: {fileID: 2028697918, guid: c5ec968fa6a4d134cad8a01cbeaa33d7, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 842.0541
-      objectReference: {fileID: 0}
-    - target: {fileID: 2028697918, guid: c5ec968fa6a4d134cad8a01cbeaa33d7, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 80
-      objectReference: {fileID: 0}
-    - target: {fileID: 2028697918, guid: c5ec968fa6a4d134cad8a01cbeaa33d7, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0.000014544
-      objectReference: {fileID: 0}
-    - target: {fileID: 2028697918, guid: c5ec968fa6a4d134cad8a01cbeaa33d7, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -114.57
-      objectReference: {fileID: 0}
     - target: {fileID: 4291523988868975016, guid: c5ec968fa6a4d134cad8a01cbeaa33d7, type: 3}
       propertyPath: m_RootOrder
       value: 3

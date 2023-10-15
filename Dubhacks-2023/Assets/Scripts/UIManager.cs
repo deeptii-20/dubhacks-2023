@@ -156,15 +156,11 @@ public class UIManager : MonoBehaviour
     public void InteractNoResponse(GameObject player, GameObject speaker) {
         switch(speaker.tag) {
             case "Enemy":
-                // kill the ghost
-                speaker.GetComponent<GhostController>().Die();
+                // do nothing
                 break;
             case "Villager":
                 // bite the villager
                 player.GetComponent<PlayerController>().KillVillager(speaker);
-                break;
-            default:
-                // do nothing
                 break;
         }
         isPaused = false;
@@ -214,9 +210,6 @@ public class UIManager : MonoBehaviour
                         player
                     ));
                 }
-                break;
-            default:
-                // do nothing
                 break;
         }
         isPaused = false;
