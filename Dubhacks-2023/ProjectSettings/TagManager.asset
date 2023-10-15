@@ -6,11 +6,8 @@ TagManager:
   tags:
   - Hazard
   - Villager
-<<<<<<< HEAD
   - Projectile
-=======
   - Corpse
->>>>>>> dffe049c80f5de272ab0370f2c1f4ddd1fa18253
   layers:
   - Default
   - TransparentFX
