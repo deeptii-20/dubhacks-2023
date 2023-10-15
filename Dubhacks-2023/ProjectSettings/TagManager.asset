@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Hazard
   - Villager
+  - Corpse
   layers:
   - Default
   - TransparentFX

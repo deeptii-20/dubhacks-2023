@@ -1698,6 +1698,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Corpse
       objectReference: {fileID: 0}
+    - target: {fileID: 6089781325240495481, guid: f39bfb15b48978c4b9c235fc8eb2514c, type: 3}
+      propertyPath: m_TagString
+      value: Villager
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f39bfb15b48978c4b9c235fc8eb2514c, type: 3}
 --- !u!1001 &8189158726087809719
