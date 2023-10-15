@@ -12,7 +12,10 @@ public class VillagerController : MonoBehaviour
     public string dialogue;
     public VillagerState currState;
 
+    private Renderer rend;
+
     // General villager fields
+    private static Color COLOR_WHEN_SUS = Color.red;
     private Vector2 facingDirection;
     protected VillagerState vstate;
 
@@ -26,6 +29,7 @@ public class VillagerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        rend = GetComponent<Renderer>();
         vstate = VillagerState.Peaceful;
 
         VISION_OCCLUDE_MASK = LayerMask.GetMask("Moveable", "Environment");
@@ -52,27 +56,38 @@ public class VillagerController : MonoBehaviour
         {
             // Check if suspicious object is in field of view.
             if (Vector2.Angle((collider.transform.position - transform.position), facingDirection) < FIELD_OF_VIEW
-                && IsSuspicious(collider))
+                && ObjIsSuspicious(collider))
             {
                 // Check if suspicious object is occluded.
                 Vector2 origin = transform.position;
-                // Cast a ray in the facing direction.
-                RaycastHit2D hit = Physics2D.Raycast(origin, facingDirection, VISION_RADIUS, VISION_OCCLUDE_MASK);
-                // Check if the closest occluding object is the sus object.
-                if (hit.collider == collider)
+                Vector2 toSusObj = new Vector2(collider.transform.position.x - origin.x, collider.transform.position.y - origin.y);
+                // Cast a ray to the body.
+                RaycastHit2D hit = Physics2D.Raycast(origin, toSusObj, VISION_RADIUS, VISION_OCCLUDE_MASK);
+                
+                // Check if the occluding object is closer than the sus object.
+                if (hit.collider != null && Vector2.Distance(origin, hit.collider.transform.position) < toSusObj.magnitude)
                 {
+                    // Debug.Log(name + " saw " + hit.collider.name + " occluded sus object " + collider.name);
+                    // if occluding object is closer than the sus object, ignore the object
                     continue;
                 }
 
                 // We found a sus object!
-                Debug.Log(name + " Detected: " + collider.gameObject.name);
-                vstate = VillagerState.Suspicious;
+                // Debug.Log(name + " Detected: " + collider.name);
+                BecomeSuspicious();
                 break;
             }
         }
     }
 
-    private bool IsSuspicious(Collider2D collider)
+    // Make this villager suspicious.
+    private void BecomeSuspicious()
+    {
+        vstate = VillagerState.Suspicious;
+        rend.material.color = COLOR_WHEN_SUS;
+    }
+
+    private bool ObjIsSuspicious(Collider2D collider)
     {
         return collider.CompareTag(CORPSE_TAG)
             || (collider.CompareTag(VILLAGER_TAG) && collider.GetComponent<VillagerController>().vstate == VillagerState.Suspicious);
