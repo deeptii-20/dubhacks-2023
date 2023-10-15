@@ -18,7 +18,7 @@ public enum GhostState {
 
 public class GhostController : MonoBehaviour
 {
-    public string[] possibleDialogueOptions;
+    public string[] dialogue;
 
     // behavior states
     public GhostState defaultState = GhostState.Angry;
@@ -72,8 +72,8 @@ public class GhostController : MonoBehaviour
         // if health >= 0, switch to peaceful and show dialogue
         if (currHealth <= 0.0f && currState != GhostState.Peaceful) {
             currState = GhostState.Peaceful;
-            StartCoroutine(UIManager.GetComponent<UIManager>().ShowTwoResponseDialogue(
-                possibleDialogueOptions[Random.Range(0, possibleDialogueOptions.Length)], 
+            StartCoroutine(UIManager.GetComponent<UIManager>().ShowOneResponseDialogue(
+                dialogue,
                 this.gameObject,
                 Player
             ));

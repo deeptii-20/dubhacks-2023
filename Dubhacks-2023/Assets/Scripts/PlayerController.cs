@@ -183,6 +183,13 @@ public class PlayerController : MonoBehaviour
                     case "Monument":
                         ReleaseGhosts();
                         break;
+                    case "OldMan":
+                        StartCoroutine(UIManager.GetComponent<UIManager>().ShowOneResponseDialogue(
+                            res.gameObject.GetComponent<OldManController>().GetTalkingDialogue(numCapturedGhosts > 0),
+                            res.gameObject,
+                            this.gameObject
+                        ));
+                        break;
                     default:
                         break;
                 }
