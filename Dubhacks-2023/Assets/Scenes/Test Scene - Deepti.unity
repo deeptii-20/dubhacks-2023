@@ -617,10 +617,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Villager
       objectReference: {fileID: 0}
-    - target: {fileID: 2360225722830867618, guid: dc48cd465525da1489388a37ac2f70fd, type: 3}
-      propertyPath: m_Layer
-      value: 6
-      objectReference: {fileID: 0}
     - target: {fileID: 2360225722830867621, guid: dc48cd465525da1489388a37ac2f70fd, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -664,10 +660,6 @@ PrefabInstance:
     - target: {fileID: 2360225722830867621, guid: dc48cd465525da1489388a37ac2f70fd, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2578793506124575259, guid: dc48cd465525da1489388a37ac2f70fd, type: 3}
-      propertyPath: dialogue
-      value: H there, my name is Townsperson A!
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dc48cd465525da1489388a37ac2f70fd, type: 3}
@@ -941,6 +933,32 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1051795747}
   m_CullTransparentMesh: 1
+--- !u!1 &1141745299 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2360225722830867618, guid: dc48cd465525da1489388a37ac2f70fd, type: 3}
+  m_PrefabInstance: {fileID: 770523940}
+  m_PrefabAsset: {fileID: 0}
+--- !u!50 &1141745304
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1141745299}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!1 &1399089928
 GameObject:
   m_ObjectHideFlags: 0

@@ -102,13 +102,21 @@ public class PlayerController : MonoBehaviour
 
     private void UpdateInteract() {
         if (Input.GetAxis("Interact") > 0) {
-            // check if any villagers are nearby
+            // check what the closest facing object is
             Rigidbody2D res = GetFacingObject(INTERACT_MASK, INTERACT_RADIUS);
-            // show dialogue for that villager
-            if (res != null && res.gameObject.GetComponent<VillagerController>().currState != VillagerState.Suspicious) {
-                StartCoroutine(UIManager.GetComponent<UIManager>().ShowVillagerDialogue(
-                    res.gameObject.GetComponent<VillagerController>().dialogue
-                ));
+            if (res != null) {
+                switch(res.gameObject.tag) {
+                    case "Villager":
+                        Debug.Log("Interact with villager");
+                        if (res.gameObject.GetComponent<VillagerController>().currState != VillagerState.Suspicious) {
+                            StartCoroutine(UIManager.GetComponent<UIManager>().ShowVillagerDialogue(
+                                res.gameObject.GetComponent<VillagerController>().dialogue
+                            ));
+                        }
+                        break;
+                    default:
+                        break;
+                }
             }
             
         }
