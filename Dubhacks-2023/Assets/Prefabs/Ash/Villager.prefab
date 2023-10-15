@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2360225722830867620}
   - component: {fileID: 2578793506124575259}
   - component: {fileID: 8886159746855698459}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Villager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -98,7 +98,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c08c847091605e64b8f5994d70ae848e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogue: 
+  dialogue: H there, my name is Townsperson A!
   currState: 0
 --- !u!61 &8886159746855698459
 BoxCollider2D:

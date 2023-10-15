@@ -147,8 +147,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   UIManager: {fileID: 0}
-  baseHealth: 0
-  baseHealthDrain: 0
-  baseHealthDrainCooldown: 0
-  attackDamage: 0
+  baseHealth: 10
+  baseHealthDrain: 1
+  baseHealthDrainCooldown: 5
+  attackDamage: 1
   moveSpeed: 10
