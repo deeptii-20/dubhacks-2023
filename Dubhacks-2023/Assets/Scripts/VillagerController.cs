@@ -9,7 +9,8 @@ public enum VillagerState {
 
 public class VillagerController : MonoBehaviour
 {
-    public string dialogue;
+    public string normalDialogue;
+    public string suspiciousDialogue;
     public VillagerState currState;
 
     private Renderer rend;
@@ -91,5 +92,9 @@ public class VillagerController : MonoBehaviour
     {
         return collider.CompareTag(CORPSE_TAG)
             || (collider.CompareTag(VILLAGER_TAG) && collider.GetComponent<VillagerController>().vstate == VillagerState.Suspicious);
+    }
+
+    public string GetDialogue() {
+        return currState == VillagerState.Suspicious ? suspiciousDialogue : normalDialogue;
     }
 }

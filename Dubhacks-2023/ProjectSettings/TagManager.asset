@@ -10,6 +10,8 @@ TagManager:
   - Monument
   - Projectile
   - Slash
+  - OldMan
+  - Enemy
   layers:
   - Default
   - TransparentFX

@@ -70,9 +70,9 @@ public class GhostController : MonoBehaviour
         }
 
         // if health >= 0, switch to peaceful and show dialogue
-        if (currHealth <= 0.0f) {
+        if (currHealth <= 0.0f && currState != GhostState.Peaceful) {
             currState = GhostState.Peaceful;
-            StartCoroutine(UIManager.GetComponent<UIManager>().ShowEnemyDialogue(
+            StartCoroutine(UIManager.GetComponent<UIManager>().ShowTwoResponseDialogue(
                 possibleDialogueOptions[Random.Range(0, possibleDialogueOptions.Length)], 
                 this.gameObject,
                 Player
@@ -115,16 +115,6 @@ public class GhostController : MonoBehaviour
 
     bool playerInAggroRange() {
         return Vector2.Distance((Vector2)Player.transform.position, (Vector2)transform.position) <= aggroRange;
-    }
-
-    public void Dead() {
-        // TODO: play animation for death
-        Destroy(this.gameObject);
-    }
-
-    public void Captured() {
-        // TODO: play animation for capture
-        Destroy(this.gameObject);
     }
 
     void Wander() {
@@ -171,6 +161,11 @@ public class GhostController : MonoBehaviour
         }
     }
 
+    public void Die() {
+        // TODO: play death animation
+        Destroy(this.gameObject);
+    }
+
     void OnTriggerEnter2D(Collider2D collider)
     {
         // take damage from player attacks
@@ -182,4 +177,5 @@ public class GhostController : MonoBehaviour
             currHealth -= collider.gameObject.GetComponent<SlashController>().attackDamage;
         }
     }
+
 }

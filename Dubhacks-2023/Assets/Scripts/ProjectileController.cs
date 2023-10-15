@@ -34,7 +34,6 @@ public class ProjectileController : MonoBehaviour
     }
 
     public void Explode() {
-        // TODO: explode
         Destroy(this.gameObject);
     }
 }

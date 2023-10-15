@@ -99,7 +99,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c08c847091605e64b8f5994d70ae848e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogue: H there, my name is Townsperson A!
+  normalDialogue: It's a wonderful day!
+  suspiciousDialogue: I know what you've done...
   currState: 0
 --- !u!61 &8886159746855698459
 BoxCollider2D:

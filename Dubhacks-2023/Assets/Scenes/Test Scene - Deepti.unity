@@ -374,6 +374,11 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 4291523989361698789, guid: c5ec968fa6a4d134cad8a01cbeaa33d7, type: 3}
   m_PrefabInstance: {fileID: 4291523990242992243}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1567163882 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6968636318351067516, guid: c5ec968fa6a4d134cad8a01cbeaa33d7, type: 3}
+  m_PrefabInstance: {fileID: 4291523990242992243}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1844579673
 GameObject:
   m_ObjectHideFlags: 0
@@ -567,10 +572,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: UI
       objectReference: {fileID: 0}
-    - target: {fileID: 4291523988876960948, guid: c5ec968fa6a4d134cad8a01cbeaa33d7, type: 3}
-      propertyPath: m_Name
-      value: Two-Response Dialogue
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c5ec968fa6a4d134cad8a01cbeaa33d7, type: 3}
 --- !u!1001 &7869450831269876776
@@ -590,6 +591,14 @@ PrefabInstance:
       objectReference: {fileID: 1905525959}
     - target: {fileID: 7869450831236021128, guid: 278c5c61d9bb4dc4b8177fd92d81e0eb, type: 3}
       propertyPath: VillagerDialogue
+      value: 
+      objectReference: {fileID: 1905525959}
+    - target: {fileID: 7869450831236021128, guid: 278c5c61d9bb4dc4b8177fd92d81e0eb, type: 3}
+      propertyPath: OneResponseDialogue
+      value: 
+      objectReference: {fileID: 1567163882}
+    - target: {fileID: 7869450831236021128, guid: 278c5c61d9bb4dc4b8177fd92d81e0eb, type: 3}
+      propertyPath: TwoResponseDialogue
       value: 
       objectReference: {fileID: 1905525959}
     - target: {fileID: 7869450831236021129, guid: 278c5c61d9bb4dc4b8177fd92d81e0eb, type: 3}

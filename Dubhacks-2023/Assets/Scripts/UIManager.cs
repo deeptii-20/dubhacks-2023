@@ -13,8 +13,8 @@ public enum UIType {
 public class UIManager : MonoBehaviour
 {
     public GameObject GameOverlay;
-    public GameObject EnemyDialogue;
-    public GameObject VillagerDialogue;
+    public GameObject TwoResponseDialogue;
+    public GameObject OneResponseDialogue;
 
     public UIType currUI;
     public bool isPaused;
@@ -23,8 +23,8 @@ public class UIManager : MonoBehaviour
     void Start()
     {
         GameOverlay.SetActive(true);
-        EnemyDialogue.SetActive(false);
-        VillagerDialogue.SetActive(false);
+        TwoResponseDialogue.SetActive(false);
+        OneResponseDialogue.SetActive(false);
 
         currUI = UIType.Default;
         isPaused = false;
@@ -45,30 +45,27 @@ public class UIManager : MonoBehaviour
             GameOverlay.transform.Find("Health Text").GetComponent<TMP_Text>().text = "Health: " + currHealth;
         }
     }
-    public void UpdateGhostsOverlay(int numCapturedGhosts) {
-        GameOverlay.transform.Find("Ghosts Text").GetComponent<TMP_Text>().text = "Ghosts: " + numCapturedGhosts;
-    }
 
-    public IEnumerator ShowEnemyDialogue(string dialogueText, GameObject enemy, GameObject player) {
+    public IEnumerator ShowTwoResponseDialogue(string dialogueText, GameObject speaker, GameObject player) {
         currUI = UIType.EnemyDialogue;
         isPaused = true;
 
         // wait 0.5 sec, then show dialogue box
         yield return new WaitForSeconds(0.5f);
-        EnemyDialogue.transform.Find("Dialogue Text").gameObject.GetComponent<TMP_Text>().text = dialogueText;
-        EnemyDialogue.SetActive(true);
+        TwoResponseDialogue.transform.Find("Dialogue Text").gameObject.GetComponent<TMP_Text>().text = dialogueText;
+        TwoResponseDialogue.SetActive(true);
 
         // wait for users to select an option -> hide dialogue box and act accordingly
         while (true) {
             if (Input.GetAxis("Submit") > 0) {
-                EnemyDialogue.SetActive(false);
-                player.GetComponent<PlayerController>().CaptureGhost(enemy);
+                TwoResponseDialogue.SetActive(false);
+                InteractYesResponse(player, speaker);
                 isPaused = false;
                 break;
             }
             if (Input.GetAxis("Cancel") > 0) {
-                EnemyDialogue.SetActive(false);
-                player.GetComponent<PlayerController>().KillGhost(enemy);
+                TwoResponseDialogue.SetActive(false);
+                InteractNoResponse(player, speaker);
                 isPaused = false;
                 break;
             }
@@ -77,24 +74,81 @@ public class UIManager : MonoBehaviour
         yield return null;
     }
 
-    public IEnumerator ShowVillagerDialogue(string dialogueText) {
+    public IEnumerator ShowOneResponseDialogue(string dialogueText, GameObject speaker, GameObject player) {
         currUI = UIType.VillagerDialogue;
         isPaused = true;
 
         // wait 0.5 sec, then show dialogue box
         yield return new WaitForSeconds(0.5f);
-        VillagerDialogue.transform.Find("Dialogue Text").gameObject.GetComponent<TMP_Text>().text = dialogueText;
-        VillagerDialogue.SetActive(true);
+        OneResponseDialogue.transform.Find("Dialogue Text").gameObject.GetComponent<TMP_Text>().text = dialogueText;
+        OneResponseDialogue.SetActive(true);
 
         // wait for users to select an option -> hide dialogue box
         while (true) {
             if (Input.GetAxis("Submit") > 0) {
-                VillagerDialogue.SetActive(false);
-                isPaused = false;
+                OneResponseDialogue.SetActive(false);
+                InteractResponse(player, speaker);
                 break;
             }
             yield return null;
         }
         yield return null;
+    }
+
+    public void InteractYesResponse(GameObject player, GameObject speaker) {
+        switch(speaker.tag) {
+            case "Enemy":
+                // capture the ghost
+                player.GetComponent<PlayerController>().CaptureGhost(speaker);
+                break;
+            case "Villager":
+                // bite the villager
+                player.GetComponent<PlayerController>().KillVillager(speaker);
+                break;
+            default:
+                // do nothing
+                break;
+        }
+        
+    }
+
+    public void InteractNoResponse(GameObject player, GameObject speaker) {
+        switch(speaker.tag) {
+            case "Enemy":
+                // kill the ghost
+                speaker.GetComponent<GhostController>().Die();
+                break;
+            case "Villager":
+                // bite the villager
+                player.GetComponent<PlayerController>().KillVillager(speaker);
+                break;
+            default:
+                // do nothing
+                break;
+        }
+    }
+
+    public void InteractResponse(GameObject player, GameObject speaker) {
+        switch(speaker.tag) {
+            case "Enemy":
+                // do nothing
+                break;
+            case "Villager":
+                // if villager is suspicious or player health is low, bring up bite prompt
+                if (speaker.GetComponent<VillagerController>().currState == VillagerState.Suspicious || 
+                    player.GetComponent<PlayerController>().currHealth <= player.GetComponent<PlayerController>().baseHealth * 0.5f) {
+                        StartCoroutine(
+                            ShowTwoResponseDialogue(
+                                "Bite the villager to replenish health?",
+                                speaker,
+                                player
+                            ));
+                }
+                break;
+            default:
+                // do nothing
+                break;
+        }
+        isPaused = false;
     }
 }

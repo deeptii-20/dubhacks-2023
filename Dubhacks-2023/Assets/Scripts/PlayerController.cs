@@ -11,7 +11,8 @@ public class PlayerController : MonoBehaviour
     public float baseHealth = 50;
     public float baseHealthDrain = 1;
     public float baseHealthDrainCooldown = 5;
-    private float currHealth;
+    public float baseHealthReplenish = 25;
+    public float currHealth;
     private float currHealthDrainCooldown;
     private int numCapturedGhosts;
 
@@ -132,21 +133,22 @@ public class PlayerController : MonoBehaviour
         UIManager.GetComponent<UIManager>().UpdateHealthOverlay(currHealth, isDrain);
     }
 
-     public void CaptureGhost(GameObject enemy) {
-        numCapturedGhosts++;
-        enemy.GetComponent<GhostController>().Captured();
-        UIManager.GetComponent<UIManager>().UpdateGhostsOverlay(numCapturedGhosts);
+    public void KillVillager(GameObject villager) {
+        currHealth = (currHealth + baseHealthReplenish > baseHealth) ? baseHealth :  currHealth + baseHealthReplenish;
+        UIManager.GetComponent<UIManager>().UpdateHealthOverlay(currHealth, false);
+        // TODO: spawn ghost + corpse
+        Destroy(villager);
     }
 
-    public void KillGhost(GameObject enemy) {
-        enemy.GetComponent<GhostController>().Dead();
+    public void CaptureGhost(GameObject enemy) {
+        numCapturedGhosts++;
+        // TODO: play capture animation + add to ghost trail
+        Destroy(enemy);
     }
 
     public void ReleaseGhosts() {
-        // TODO: play ghost release animation
+        // TODO: play ghost release animation and instantiate in cemetery
         numCapturedGhosts = 0;
-        UIManager.GetComponent<UIManager>().UpdateGhostsOverlay(numCapturedGhosts);
-
     }
 
     void OnTriggerEnter2D(Collider2D collider)
@@ -166,11 +168,11 @@ public class PlayerController : MonoBehaviour
             if (res != null) {
                 switch(res.gameObject.tag) {
                     case "Villager":
-                        if (res.gameObject.GetComponent<VillagerController>().currState != VillagerState.Suspicious) {
-                            StartCoroutine(UIManager.GetComponent<UIManager>().ShowVillagerDialogue(
-                                res.gameObject.GetComponent<VillagerController>().dialogue
-                            ));
-                        }
+                        StartCoroutine(UIManager.GetComponent<UIManager>().ShowOneResponseDialogue(
+                            res.gameObject.GetComponent<VillagerController>().GetDialogue(),
+                            res.gameObject,
+                            this.gameObject
+                        ));
                         break;
                     case "Monument":
                         ReleaseGhosts();
