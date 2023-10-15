@@ -19,6 +19,7 @@ public class VillagerController : MonoBehaviour
 
     // Body sighting related fields
     private static float VISION_RADIUS = 5.0f;
+    private static float FIELD_OF_VIEW = 80.0f; // from center
     private static string CORPSE_TAG = "Corpse";
 
     // Start is called before the first frame update
@@ -26,7 +27,7 @@ public class VillagerController : MonoBehaviour
     {
         rend = GetComponent<Renderer>();
 
-        
+        facingDirection = new Vector2(0, -1);
     }
 
     // Update is called once per frame
@@ -39,14 +40,16 @@ public class VillagerController : MonoBehaviour
     {
         // if (rend.isVisible) (if on camera)
         Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, VISION_RADIUS);
-
         foreach (Collider2D collider in colliders)
         {
-            if (collider.CompareTag(CORPSE_TAG))
+            if (collider.CompareTag(CORPSE_TAG) 
+                && Vector2.Angle((collider.transform.position - transform.position), facingDirection) < FIELD_OF_VIEW)
             {
-                // Do something with the detected object with the target tag
+                // check if we're facing 180 degrees
                 Debug.Log(name + " Detected: " + collider.gameObject.name);
             }
+            Debug.Log(Vector2.Angle((collider.transform.position - transform.position), facingDirection));
+
         }
     }
 }
