@@ -19,9 +19,8 @@ public class PlayerController : MonoBehaviour
     public float attackDamage;
 
     // interact
-    // Dragging variables
     private static float INTERACT_RADIUS = 1.5f;
-    private static LayerMask INTERACT_MASK; // Objects on Interact layer
+    private static LayerMask INTERACT_MASK; // Objects on Interactable layer
 
     // movement
     public float moveSpeed = 10.0f; // Adjust the movement speed as needed.
@@ -42,6 +41,7 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
 
         DRAG_MASK = LayerMask.GetMask("Moveable");
+        INTERACT_MASK = LayerMask.GetMask("Interactable");
         facingDirection = new Vector2(0, -1);
 
         currHealth = baseHealth;
