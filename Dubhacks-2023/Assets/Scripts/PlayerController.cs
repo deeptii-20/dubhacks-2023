@@ -4,7 +4,27 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    public float moveSpeed = 5.0f; // Adjust the movement speed as needed.
+    // UI manager
+    public GameObject UIManager;
+
+    // health
+    public float baseHealth;
+    public float baseHealthDrain;
+    public float baseHealthDrainCooldown;
+    private float currHealth;
+    private float numCapturedGhosts;
+    private float currHealthDrainCooldown;
+
+    // combat
+    public float attackDamage;
+
+    // interact
+    // Dragging variables
+    private static float INTERACT_RADIUS = 1.5f;
+    private static LayerMask INTERACT_MASK; // Objects on Interact layer
+
+    // movement
+    public float moveSpeed = 10.0f; // Adjust the movement speed as needed.
     private Rigidbody2D rb;
 
     // Player variables
@@ -23,11 +43,25 @@ public class PlayerController : MonoBehaviour
 
         DRAG_MASK = LayerMask.GetMask("Moveable");
         facingDirection = new Vector2(0, -1);
+
+        currHealth = baseHealth;
+        numCapturedGhosts = 0;
     }
 
     private void Update()
     {
         UpdateDragIdentity();
+
+        UpdateAttack();
+
+        UpdateInteract();
+
+        // take damage from health drain by carrying ghosts
+        if (currHealthDrainCooldown <= 0) {
+            currHealthDrainCooldown = baseHealthDrainCooldown;
+            currHealth -= baseHealthDrain * numCapturedGhosts;
+        }
+        currHealthDrainCooldown -= Time.deltaTime;
     }
 
     private void FixedUpdate()
@@ -36,6 +70,46 @@ public class PlayerController : MonoBehaviour
 
         // Drag goes after player movement update.
         UpdateDragMovement();
+    }
+
+    ///// COMBAT RELATED STUFF
+    private void UpdateAttack() {
+        if (Input.GetAxis("Attack") > 0) {
+            Debug.Log("Attack");
+        }
+    }
+
+     public void CaptureGhost(GameObject enemy) {
+        numCapturedGhosts++;
+        enemy.GetComponent<GhostController>().Captured();
+    }
+
+    public void KillGhost(GameObject enemy) {
+        enemy.GetComponent<GhostController>().Dead();
+    }
+
+    void OnTriggerEnter2D(Collider2D collider)
+    {
+        // take damage from ghost attacks
+        if (collider.gameObject.tag == "Hazard") {
+            currHealth -= collider.gameObject.GetComponent<GhostAttack>().attackDamage;
+        }
+    }
+
+    ///// EXPLORATION/INTERACTION RELATED STUFF
+
+    private void UpdateInteract() {
+        if (Input.GetAxis("Interact") > 0) {
+            // check if any villagers are nearby
+            Rigidbody2D res = GetFacingObject(INTERACT_MASK, INTERACT_RADIUS);
+            // show dialogue for that villager
+            if (res != null && res.gameObject.GetComponent<VillagerController>().currState != VillagerState.Suspicious) {
+                StartCoroutine(UIManager.GetComponent<UIManager>().ShowVillagerDialogue(
+                    res.gameObject.GetComponent<VillagerController>().dialogue
+                ));
+            }
+            
+        }
     }
 
     private void UpdateMove()
@@ -83,7 +157,7 @@ public class PlayerController : MonoBehaviour
         {
             // Drag whatever object we're facing, or don't if not facing anything.
             // Also stop dragging if we're facing the object we're currently dragging.
-            Rigidbody2D res = GetFacingMoveableObject();
+            Rigidbody2D res = GetFacingObject(DRAG_MASK, START_DRAG_RADUS);
             if (res == null || res == draggedRb)
             {
                 // Stop dragging
@@ -97,11 +171,11 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private Rigidbody2D GetFacingMoveableObject()
+    private Rigidbody2D GetFacingObject(LayerMask layerMask, float radius)
     {
         Vector2 origin = rb.position;
         // Cast a ray in the facing direction.
-        RaycastHit2D hit = Physics2D.Raycast(origin, facingDirection, START_DRAG_RADUS, DRAG_MASK);
+        RaycastHit2D hit = Physics2D.Raycast(origin, facingDirection, radius, layerMask);
         Rigidbody2D res = null;
         // Check if the ray hits something.
         if (hit.collider != null)
@@ -111,4 +185,5 @@ public class PlayerController : MonoBehaviour
         }
         return res;
     }
+
 }

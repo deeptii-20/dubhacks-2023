@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class GhostAttack : MonoBehaviour
 {
+    public float attackDamage;
     private float attackDuration = 0;
 
     // Start is called before the first frame update
