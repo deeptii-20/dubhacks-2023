@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    // UI manager
+    // UI manager + old man
     public GameObject UIManager;
+    public GameObject OldMan;
 
     // health
     public float baseHealth = 50;
@@ -149,6 +150,11 @@ public class PlayerController : MonoBehaviour
     public void ReleaseGhosts() {
         // TODO: play ghost release animation and instantiate in cemetery
         numCapturedGhosts = 0;
+        StartCoroutine(UIManager.GetComponent<UIManager>().ShowOneResponseDialogue(
+            OldMan.GetComponent<OldManController>().GetMonumentDialogue(),
+            OldMan,
+            this.gameObject
+        ));
     }
 
     void OnTriggerEnter2D(Collider2D collider)
