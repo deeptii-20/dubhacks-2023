@@ -14,6 +14,9 @@ public class VillagerController : MonoBehaviour
 
     private Renderer rend;
 
+    // Body sighting related fields
+    private static float VIEW_RADIUS = 5.0f;
+
     // Start is called before the first frame update
     void Start()
     {
