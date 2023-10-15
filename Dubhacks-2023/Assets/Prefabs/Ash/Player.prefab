@@ -157,5 +157,5 @@ MonoBehaviour:
   projectile: {fileID: 5648579640542601158, guid: f6acf616f82b03f46b22eee2cc2b489a, type: 3}
   rangedAttackDamage: 3
   rangedAttackHealthDrain: 1
-  baseRangedAttackCooldown: 1.5
+  baseRangedAttackCooldown: 1
   moveSpeed: 10

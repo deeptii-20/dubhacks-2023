@@ -28,7 +28,7 @@ public class PlayerController : MonoBehaviour
     
     public float rangedAttackHealthDrain = 1;
     
-    public float baseRangedAttackCooldown = 1.5f;
+    public float baseRangedAttackCooldown = 1;
     private float currRangedAttackCooldown;
 
     // interact

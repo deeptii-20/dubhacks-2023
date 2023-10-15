@@ -567,6 +567,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: UI
       objectReference: {fileID: 0}
+    - target: {fileID: 4291523988876960948, guid: c5ec968fa6a4d134cad8a01cbeaa33d7, type: 3}
+      propertyPath: m_Name
+      value: Two-Response Dialogue
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c5ec968fa6a4d134cad8a01cbeaa33d7, type: 3}
 --- !u!1001 &7869450831269876776
