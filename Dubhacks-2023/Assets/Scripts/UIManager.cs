@@ -36,7 +36,7 @@ public class UIManager : MonoBehaviour
 
     }
 
-    public IEnumerator ShowEnemyDialogue(string dialogueText, GameObject enemy) {
+    public IEnumerator ShowEnemyDialogue(string dialogueText, GameObject enemy, GameObject player) {
         currUI = UIType.EnemyDialogue;
         isPaused = true;
 
@@ -49,12 +49,12 @@ public class UIManager : MonoBehaviour
         while (true) {
             if (Input.GetAxis("Submit") > 0) {
                 EnemyDialogue.SetActive(false);
-                // play capture animation
+                player.GetComponent<PlayerController>().CaptureGhost(enemy);
                 break;
             }
             if (Input.GetAxis("Cancel") > 0) {
                 EnemyDialogue.SetActive(false);
-                enemy.GetComponent<GhostController>().Die();
+                player.GetComponent<PlayerController>().KillGhost(enemy);
                 break;
             }
             yield return null;
@@ -62,7 +62,7 @@ public class UIManager : MonoBehaviour
         yield return null;
     }
 
-    public IEnumerator ShowVillagerDialogue(string dialogueText, GameObject villager) {
+    public IEnumerator ShowVillagerDialogue(string dialogueText) {
         currUI = UIType.VillagerDialogue;
         isPaused = true;
 
