@@ -146,10 +146,10 @@ public class PlayerController : MonoBehaviour
         Destroy(villager);
 
         // spawn corpse
-        Instantiate(corpse, transform.position, transform.rotation);
+        Instantiate(corpse, villager.transform.position, villager.transform.rotation);
 
         // spawn ghost
-        GameObject g = Instantiate(ghost, transform.position, transform.rotation);
+        GameObject g = Instantiate(ghost, (Vector2)villager.transform.position + (Vector2.up * 0.5f), villager.transform.rotation);
         g.GetComponent<GhostController>().UIManager = this.UIManager;
         g.GetComponent<GhostController>().Player = this.gameObject;
         OldMan.GetComponent<OldManController>().totalNumGhosts += 1;
