@@ -18,6 +18,7 @@ public class UIManager : MonoBehaviour
 
     public UIType currUI;
     public bool isPaused;
+    public float baseInputCooldown = 0.5f;
 
     // Start is called before the first frame update
     void Start()
@@ -32,7 +33,7 @@ public class UIManager : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    {
+    {  
 
     }
     
@@ -74,21 +75,31 @@ public class UIManager : MonoBehaviour
         yield return null;
     }
 
-    public IEnumerator ShowOneResponseDialogue(string dialogueText, GameObject speaker, GameObject player) {
+    public IEnumerator ShowOneResponseDialogue(string[] dialogueText, GameObject speaker, GameObject player) {
         currUI = UIType.VillagerDialogue;
         isPaused = true;
 
         // wait 0.5 sec, then show dialogue box
         yield return new WaitForSeconds(0.5f);
-        OneResponseDialogue.transform.Find("Dialogue Text").gameObject.GetComponent<TMP_Text>().text = dialogueText;
+        OneResponseDialogue.transform.Find("Dialogue Text").gameObject.GetComponent<TMP_Text>().text = dialogueText[0];
         OneResponseDialogue.SetActive(true);
 
-        // wait for users to select an option -> hide dialogue box
+        // wait for users to continue
+        int dialogueIdx = 0;
         while (true) {
-            if (Input.GetAxis("Submit") > 0) {
-                OneResponseDialogue.SetActive(false);
-                InteractResponse(player, speaker);
-                break;
+            if (Input.GetButtonDown("Submit")) {
+                // len 2 -> from 0 to < 1
+                if (dialogueIdx < dialogueText.Length - 1) {
+                    // if there's another dialogue, show it
+                    dialogueIdx++;
+                    OneResponseDialogue.transform.Find("Dialogue Text").gameObject.GetComponent<TMP_Text>().text = dialogueText[dialogueIdx];
+                } else {
+                    // otherwise close the dialogue box
+                    OneResponseDialogue.SetActive(false);
+                    InteractResponse(player, speaker);
+                    break;
+                }
+                yield return new WaitForSeconds(0.5f);
             }
             yield return null;
         }
@@ -127,23 +138,31 @@ public class UIManager : MonoBehaviour
                 break;
         }
     }
-
     public void InteractResponse(GameObject player, GameObject speaker) {
         switch(speaker.tag) {
             case "Enemy":
                 // do nothing
+                StartCoroutine(
+                    ShowTwoResponseDialogue(
+                        "Bring the ghost to the cemetery?",
+                        speaker,
+                        player
+                ));
                 break;
             case "Villager":
                 // if villager is suspicious or player health is low, bring up bite prompt
                 if (speaker.GetComponent<VillagerController>().vstate == VillagerState.Suspicious || 
                     player.GetComponent<PlayerController>().currHealth <= player.GetComponent<PlayerController>().baseHealth * 0.5f) {
-                        StartCoroutine(
-                            ShowTwoResponseDialogue(
-                                "Bite the villager to replenish health?",
-                                speaker,
-                                player
-                            ));
+                    StartCoroutine(
+                        ShowTwoResponseDialogue(
+                            "Bite the villager to replenish health?",
+                            speaker,
+                            player
+                    ));
                 }
+                break;
+            case "OldMan":  
+                // maybe game over
                 break;
             default:
                 // do nothing

@@ -99,9 +99,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c08c847091605e64b8f5994d70ae848e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  normalDialogue: It's a wonderful day!
-  suspiciousDialogue: I know what you've done...
-  currState: 0
+  normalDialogue:
+  - It's a beautiful day!
+  - Pity about all the ghosts, though...
+  suspiciousDialogue:
+  - I know what you've done...
+  vstate: 0
 --- !u!61 &8886159746855698459
 BoxCollider2D:
   m_ObjectHideFlags: 0

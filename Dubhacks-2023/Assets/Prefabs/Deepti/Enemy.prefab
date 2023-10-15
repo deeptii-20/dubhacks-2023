@@ -262,8 +262,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6528033c62cc4fa46a45bc9f815545f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  possibleDialogueOptions:
-  - Please take me to the cemetery
+  dialogue:
+  - Thank you for bringing me out of my mindless state.
+  - Please, bring me to the cemetery so I might be out to rest at last...
   defaultState: 0
   currState: 0
   maxHealth: 5
