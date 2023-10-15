@@ -16,7 +16,10 @@ public class PlayerController : MonoBehaviour
     private int numCapturedGhosts;
 
     // combat
+    public GameObject projectile;
     public float attackDamage;
+    public float baseAttackCooldown;
+    private float currAttackCooldown;
 
     // interact
     private static float INTERACT_RADIUS = 1.5f;
@@ -57,7 +60,11 @@ public class PlayerController : MonoBehaviour
 
         UpdateDragIdentity();
 
-        UpdateAttack();
+        if (currAttackCooldown <= 0) {
+            UpdateAttack();
+        } else {
+            currAttackCooldown -= Time.deltaTime;
+        }
 
         UpdateInteract();
 
@@ -87,8 +94,10 @@ public class PlayerController : MonoBehaviour
 
     ///// COMBAT RELATED STUFF
     private void UpdateAttack() {
-        if (Input.GetAxis("Attack") > 0) {
-            Debug.Log("Attack");
+        if (Input.GetButtonDown("Attack")) {
+            currAttackCooldown = baseAttackCooldown;
+            GameObject p = Instantiate(projectile, transform.position, transform.rotation);
+            p.GetComponent<ProjectileController>().SetParams((Vector2)transform.position, facingDirection, attackDamage);
         }
     }
 

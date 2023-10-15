@@ -117,10 +117,6 @@ public class GhostController : MonoBehaviour
         return Vector2.Distance((Vector2)Player.transform.position, (Vector2)transform.position) <= aggroRange;
     }
 
-    public void TakeDamage(float damage) {
-        currHealth -= damage;
-    }
-
     public void Dead() {
         // TODO: play animation for death
         Destroy(this.gameObject);
@@ -175,4 +171,12 @@ public class GhostController : MonoBehaviour
         }
     }
 
+    void OnTriggerEnter2D(Collider2D collider)
+    {
+        // take damage from ghost attacks
+        if (collider.gameObject.tag == "Projectile") {
+            currHealth -= collider.gameObject.GetComponent<ProjectileController>().attackDamage;
+            collider.gameObject.GetComponent<ProjectileController>().Explode();
+        }
+    }
 }
