@@ -40,9 +40,9 @@ public class PlayerController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
 
+        facingDirection = new Vector2(0, -1);
         DRAG_MASK = LayerMask.GetMask("Moveable");
         INTERACT_MASK = LayerMask.GetMask("Interactable");
-        facingDirection = new Vector2(0, -1);
 
         currHealth = baseHealth;
         numCapturedGhosts = 0;
@@ -63,6 +63,7 @@ public class PlayerController : MonoBehaviour
         }
         currHealthDrainCooldown -= Time.deltaTime;
 
+        // update game overlay with latest stats
         UIManager.GetComponent<UIManager>().UpdateGameOverlay(currHealth, numCapturedGhosts);
     }
 
@@ -102,13 +103,20 @@ public class PlayerController : MonoBehaviour
 
     private void UpdateInteract() {
         if (Input.GetAxis("Interact") > 0) {
-            // check if any villagers are nearby
+            // check what the closest facing object is
             Rigidbody2D res = GetFacingObject(INTERACT_MASK, INTERACT_RADIUS);
-            // show dialogue for that villager
-            if (res != null && res.gameObject.GetComponent<VillagerController>().currState != VillagerState.Suspicious) {
-                StartCoroutine(UIManager.GetComponent<UIManager>().ShowVillagerDialogue(
-                    res.gameObject.GetComponent<VillagerController>().dialogue
-                ));
+            if (res != null) {
+                switch(res.gameObject.tag) {
+                    case "Villager":
+                        if (res.gameObject.GetComponent<VillagerController>().currState != VillagerState.Suspicious) {
+                            StartCoroutine(UIManager.GetComponent<UIManager>().ShowVillagerDialogue(
+                                res.gameObject.GetComponent<VillagerController>().dialogue
+                            ));
+                        }
+                        break;
+                    default:
+                        break;
+                }
             }
             
         }
