@@ -100,7 +100,7 @@ public class PlayerController : MonoBehaviour
 
     ///// COMBAT RELATED STUFF
     private void UpdateAttack() {
-        if (Input.GetButtonDown("Melee Attack") && currMeleeAttackCooldown <= 0) {
+        if (Input.GetButtonDown("Melee Attack") && currMeleeAttackCooldown <= 0 && currHealth >= meleeAttackHealthDrain) {
             currMeleeAttackCooldown = baseMeleeAttackCooldown;
             Quaternion rotate = Quaternion.Euler(0, 0, 0);
             switch(facingDirection) {
@@ -120,7 +120,7 @@ public class PlayerController : MonoBehaviour
             GameObject s = Instantiate(slash, (Vector2)transform.position + facingDirection, rotate, transform);
             s.GetComponent<SlashController>().SetParams(meleeAttackDamage, baseMeleeAttackCooldown / 2);
             TakeDamage(meleeAttackHealthDrain, true);
-        } else if (Input.GetButtonDown("Ranged Attack") && currRangedAttackCooldown <= 0) {
+        } else if (Input.GetButtonDown("Ranged Attack") && currRangedAttackCooldown <= 0 && currHealth >= rangedAttackHealthDrain) {
             currRangedAttackCooldown = baseRangedAttackCooldown;
             GameObject p = Instantiate(projectile, transform.position, transform.rotation);
             p.GetComponent<ProjectileController>().SetParams((Vector2)transform.position, facingDirection, rangedAttackDamage);
@@ -129,7 +129,7 @@ public class PlayerController : MonoBehaviour
     }
 
     public void TakeDamage(float drainAmount, bool isDrain) {
-        currHealth -= drainAmount;
+        currHealth = currHealth < drainAmount ? 0 : currHealth - drainAmount;
         UIManager.GetComponent<UIManager>().UpdateHealthOverlay(currHealth, isDrain);
     }
 
