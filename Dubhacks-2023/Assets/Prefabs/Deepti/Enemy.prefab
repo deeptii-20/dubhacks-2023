@@ -266,8 +266,7 @@ MonoBehaviour:
   - Please take me to the cemetery
   defaultState: 0
   currState: 0
-  maxHealth: 10
-  currHealth: 0
+  maxHealth: 5
   baseAttack: 1
   baseAttackDuration: 0.5
   baseAttackCooldown: 3
