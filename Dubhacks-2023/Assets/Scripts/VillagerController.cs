@@ -21,6 +21,7 @@ public class VillagerController : MonoBehaviour
     private static float VISION_RADIUS = 5.0f;
     private static float FIELD_OF_VIEW = 80.0f; // from center
     private static string CORPSE_TAG = "Corpse";
+    private bool sawCorpse;
 
     // Start is called before the first frame update
     void Start()
@@ -28,6 +29,7 @@ public class VillagerController : MonoBehaviour
         rend = GetComponent<Renderer>();
 
         facingDirection = new Vector2(0, -1);
+        sawCorpse = false;
     }
 
     // Update is called once per frame
@@ -45,10 +47,10 @@ public class VillagerController : MonoBehaviour
             if (collider.CompareTag(CORPSE_TAG) 
                 && Vector2.Angle((collider.transform.position - transform.position), facingDirection) < FIELD_OF_VIEW)
             {
+                sawCorpse = true;
                 // check if we're facing 180 degrees
                 Debug.Log(name + " Detected: " + collider.gameObject.name);
             }
-            Debug.Log(Vector2.Angle((collider.transform.position - transform.position), facingDirection));
 
         }
     }
