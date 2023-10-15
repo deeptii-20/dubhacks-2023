@@ -135,7 +135,7 @@ public class UIManager : MonoBehaviour
                 break;
             case "Villager":
                 // if villager is suspicious or player health is low, bring up bite prompt
-                if (speaker.GetComponent<VillagerController>().currState == VillagerState.Suspicious || 
+                if (speaker.GetComponent<VillagerController>().vstate == VillagerState.Suspicious || 
                     player.GetComponent<PlayerController>().currHealth <= player.GetComponent<PlayerController>().baseHealth * 0.5f) {
                         StartCoroutine(
                             ShowTwoResponseDialogue(

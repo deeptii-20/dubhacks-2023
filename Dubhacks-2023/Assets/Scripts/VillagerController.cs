@@ -11,14 +11,13 @@ public class VillagerController : MonoBehaviour
 {
     public string normalDialogue;
     public string suspiciousDialogue;
-    public VillagerState currState;
 
     private Renderer rend;
 
     // General villager fields
     private static Color COLOR_WHEN_SUS = Color.red;
     private Vector2 facingDirection;
-    protected VillagerState vstate;
+    public VillagerState vstate;
 
     // Body sighting related fields
     private static float VISION_RADIUS = 5.0f;
@@ -95,6 +94,6 @@ public class VillagerController : MonoBehaviour
     }
 
     public string GetDialogue() {
-        return currState == VillagerState.Suspicious ? suspiciousDialogue : normalDialogue;
+        return vstate == VillagerState.Suspicious ? suspiciousDialogue : normalDialogue;
     }
 }
