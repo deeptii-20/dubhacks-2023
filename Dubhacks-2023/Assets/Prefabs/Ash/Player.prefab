@@ -146,7 +146,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29514c8aa22f3ed45890e13ace60e9bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UIManager: {fileID: 0}
+  UIManager: {fileID: 7869450831236021175, guid: 278c5c61d9bb4dc4b8177fd92d81e0eb, type: 3}
   baseHealth: 10
   baseHealthDrain: 1
   baseHealthDrainCooldown: 5

@@ -40,9 +40,9 @@ public class PlayerController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
 
+        facingDirection = new Vector2(0, -1);
         DRAG_MASK = LayerMask.GetMask("Moveable");
         INTERACT_MASK = LayerMask.GetMask("Interactable");
-        facingDirection = new Vector2(0, -1);
 
         currHealth = baseHealth;
         numCapturedGhosts = 0;
@@ -63,6 +63,7 @@ public class PlayerController : MonoBehaviour
         }
         currHealthDrainCooldown -= Time.deltaTime;
 
+        // update game overlay with latest stats
         UIManager.GetComponent<UIManager>().UpdateGameOverlay(currHealth, numCapturedGhosts);
     }
 
@@ -107,7 +108,6 @@ public class PlayerController : MonoBehaviour
             if (res != null) {
                 switch(res.gameObject.tag) {
                     case "Villager":
-                        Debug.Log("Interact with villager");
                         if (res.gameObject.GetComponent<VillagerController>().currState != VillagerState.Suspicious) {
                             StartCoroutine(UIManager.GetComponent<UIManager>().ShowVillagerDialogue(
                                 res.gameObject.GetComponent<VillagerController>().dialogue
