@@ -35,9 +35,17 @@ public class UIManager : MonoBehaviour
     {
 
     }
-
-    public void UpdateGameOverlay(float currHealth, int numCapturedGhosts) {
-        GameOverlay.transform.Find("Health Text").GetComponent<TMP_Text>().text = "Health: " + currHealth;
+    
+    public void UpdateHealthOverlay(float currHealth, bool isDrain) {
+        if (isDrain) {
+            // TODO: update UI with drain animation
+            GameOverlay.transform.Find("Health Text").GetComponent<TMP_Text>().text = "Health: " + currHealth;
+        } else {
+            // TODO: update UI with non-drain animation
+            GameOverlay.transform.Find("Health Text").GetComponent<TMP_Text>().text = "Health: " + currHealth;
+        }
+    }
+    public void UpdateGhostsOverlay(int numCapturedGhosts) {
         GameOverlay.transform.Find("Ghosts Text").GetComponent<TMP_Text>().text = "Ghosts: " + numCapturedGhosts;
     }
 

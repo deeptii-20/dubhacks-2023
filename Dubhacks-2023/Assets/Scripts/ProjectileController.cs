@@ -7,8 +7,8 @@ public class ProjectileController : MonoBehaviour
     private Vector2 startPos;
     private Vector2 direction;
     public float attackDamage;
-    public float baseSpeed;
-    public float maxDist;
+    public float baseSpeed = 20;
+    public float maxDist = 5;
 
 
     // Start is called before the first frame update
