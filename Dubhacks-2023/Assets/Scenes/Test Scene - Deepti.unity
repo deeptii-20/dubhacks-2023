@@ -259,6 +259,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 8189158725602588136, guid: c645f9da0b8c63c4f8225cfee35e1897, type: 3}
+      propertyPath: OldMan
+      value: 
+      objectReference: {fileID: 1406827547}
+    - target: {fileID: 8189158725602588136, guid: c645f9da0b8c63c4f8225cfee35e1897, type: 3}
       propertyPath: UIManager
       value: 
       objectReference: {fileID: 34074527}
@@ -369,6 +373,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dc48cd465525da1489388a37ac2f70fd, type: 3}
+--- !u!1 &1406827547 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 399576386043745679, guid: a884838535688d249bca4260cb0e8f2f, type: 3}
+  m_PrefabInstance: {fileID: 399576385949608658}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1433962390 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4291523989361698789, guid: c5ec968fa6a4d134cad8a01cbeaa33d7, type: 3}
@@ -377,6 +386,11 @@ GameObject:
 --- !u!1 &1567163882 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6968636318351067516, guid: c5ec968fa6a4d134cad8a01cbeaa33d7, type: 3}
+  m_PrefabInstance: {fileID: 4291523990242992243}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1634037218 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1634037218, guid: c5ec968fa6a4d134cad8a01cbeaa33d7, type: 3}
   m_PrefabInstance: {fileID: 4291523990242992243}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1844579673
@@ -528,18 +542,6 @@ PrefabInstance:
       propertyPath: UIManager
       value: 
       objectReference: {fileID: 34074527}
-    - target: {fileID: 3525305363605405691, guid: 1bf7068442be2174ea753c4b6e904229, type: 3}
-      propertyPath: dialogue.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 3525305363605405691, guid: 1bf7068442be2174ea753c4b6e904229, type: 3}
-      propertyPath: dialogue.Array.data[0]
-      value: Thank you for bringing me out of my mindless state.
-      objectReference: {fileID: 0}
-    - target: {fileID: 3525305363605405691, guid: 1bf7068442be2174ea753c4b6e904229, type: 3}
-      propertyPath: dialogue.Array.data[1]
-      value: Please, bring me to the cemetery so I might be out to rest at last...
-      objectReference: {fileID: 0}
     - target: {fileID: 3525305363605405695, guid: 1bf7068442be2174ea753c4b6e904229, type: 3}
       propertyPath: m_RootOrder
       value: 5
@@ -593,6 +595,30 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1634037218, guid: c5ec968fa6a4d134cad8a01cbeaa33d7, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2028697917, guid: c5ec968fa6a4d134cad8a01cbeaa33d7, type: 3}
+      propertyPath: m_Name
+      value: Flavor Text
+      objectReference: {fileID: 0}
+    - target: {fileID: 2028697918, guid: c5ec968fa6a4d134cad8a01cbeaa33d7, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 842.0541
+      objectReference: {fileID: 0}
+    - target: {fileID: 2028697918, guid: c5ec968fa6a4d134cad8a01cbeaa33d7, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 80
+      objectReference: {fileID: 0}
+    - target: {fileID: 2028697918, guid: c5ec968fa6a4d134cad8a01cbeaa33d7, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0.000014544
+      objectReference: {fileID: 0}
+    - target: {fileID: 2028697918, guid: c5ec968fa6a4d134cad8a01cbeaa33d7, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -114.57
+      objectReference: {fileID: 0}
     - target: {fileID: 4291523988868975016, guid: c5ec968fa6a4d134cad8a01cbeaa33d7, type: 3}
       propertyPath: m_RootOrder
       value: 3
@@ -655,13 +681,9 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1433962390}
     - target: {fileID: 7869450831236021128, guid: 278c5c61d9bb4dc4b8177fd92d81e0eb, type: 3}
-      propertyPath: EnemyDialogue
+      propertyPath: GameOverScreen
       value: 
-      objectReference: {fileID: 1905525959}
-    - target: {fileID: 7869450831236021128, guid: 278c5c61d9bb4dc4b8177fd92d81e0eb, type: 3}
-      propertyPath: VillagerDialogue
-      value: 
-      objectReference: {fileID: 1905525959}
+      objectReference: {fileID: 1634037218}
     - target: {fileID: 7869450831236021128, guid: 278c5c61d9bb4dc4b8177fd92d81e0eb, type: 3}
       propertyPath: OneResponseDialogue
       value: 
@@ -733,7 +755,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2831244500999889694, guid: 862e776f43230aa4694e4b2fd9a8dd43, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 8.46
+      value: 8.459999
       objectReference: {fileID: 0}
     - target: {fileID: 2831244500999889694, guid: 862e776f43230aa4694e4b2fd9a8dd43, type: 3}
       propertyPath: m_LocalPosition.y
@@ -749,15 +771,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2831244500999889694, guid: 862e776f43230aa4694e4b2fd9a8dd43, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 2831244500999889694, guid: 862e776f43230aa4694e4b2fd9a8dd43, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 2831244500999889694, guid: 862e776f43230aa4694e4b2fd9a8dd43, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 2831244500999889694, guid: 862e776f43230aa4694e4b2fd9a8dd43, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x

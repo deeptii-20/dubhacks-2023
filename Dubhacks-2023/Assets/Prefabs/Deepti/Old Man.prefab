@@ -146,3 +146,54 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6b518398e40e8c49b2f38191a2a3ff5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  defaultState: 0
+  currState: 0
+  numVillagers: 0
+  totalNumGhosts: 0
+  numCapturedGhosts: 0
+  introTalking:
+  - Welcome to our small village, traveler from afar.
+  - I wish we could offer you a warmer welcome, but the ghosts plaguing us have become
+    far too many.
+  - Please, subdue these ghosts and bring them back to this cemetery so that they
+    may finally rest peacefully...
+  introHasGhostsTalking:
+  - So eager to explore our little village, you walked right past me!
+  - I see you've already found some ghosts...
+  - Please release them at the monument so that they may rest peacefully.
+  hasGhostsTalking:
+  - Oh? I see you've found some ghosts...
+  - Please release them at the monument so that they may rest peacefully.
+  noGhostsTalking:
+  - I wonder what the villagers think about these ghosts...
+  noVillagersTalking:
+  - Alas, the village has fallen empty. I fear there's no village for you to protect
+    anymore...
+  angryTalking:
+  - How dare you show your face after murdering one of our own!
+  - Prepare your final words before I strike you down
+  introMonument:
+  - So eager to explore our little village, you walked right past me!
+  - Thank you for putting these ghosts to rest.
+  - I can sense # more ghosts in this village
+  introNoGhostsMonument:
+  - Hello there, traveler. It seems like you've stumbled upon this cemetery's monument.
+  - Our village has been plagued by restless ghosts as of late.
+  - Please, subdue these ghosts and release them at this monument so that they may
+    rest at last
+  noGhostsMonument:
+  - It appears you don't have any ghosts to release. Try collecting some and come
+    back later.
+  hasGhostsMonument:
+  - 'Thank you for bringing these ghosts to rest, traveler. '
+  - I can sense # more ghosts in this village
+  noVillagersMonument:
+  - 'Thank you for bringing these ghosts to rest, traveler. '
+  - Alas, the village has fallen empty. I fear there's no village for you to protect
+    anymore...
+  angryMonument:
+  - Releasing the ghosts of those you've murdered will not save you from retribution
+  - You killed my villagers, prepare to die!!!
+  winMonument:
+  - It seems the village is peaceful again at last
+  - Thank you for your help, traveler.

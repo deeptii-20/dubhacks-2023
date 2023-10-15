@@ -45,7 +45,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   GameOverlay: {fileID: 0}
-  EnemyDialogue: {fileID: 0}
-  VillagerDialogue: {fileID: 0}
+  TwoResponseDialogue: {fileID: 0}
+  OneResponseDialogue: {fileID: 0}
+  GameOverScreen: {fileID: 0}
   currUI: 0
   isPaused: 0
+  baseInputCooldown: 0.5
