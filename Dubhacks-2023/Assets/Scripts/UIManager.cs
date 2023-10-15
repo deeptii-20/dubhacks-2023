@@ -55,11 +55,13 @@ public class UIManager : MonoBehaviour
             if (Input.GetAxis("Submit") > 0) {
                 EnemyDialogue.SetActive(false);
                 player.GetComponent<PlayerController>().CaptureGhost(enemy);
+                isPaused = false;
                 break;
             }
             if (Input.GetAxis("Cancel") > 0) {
                 EnemyDialogue.SetActive(false);
                 player.GetComponent<PlayerController>().KillGhost(enemy);
+                isPaused = false;
                 break;
             }
             yield return null;
@@ -80,6 +82,7 @@ public class UIManager : MonoBehaviour
         while (true) {
             if (Input.GetAxis("Submit") > 0) {
                 VillagerDialogue.SetActive(false);
+                isPaused = false;
                 break;
             }
             yield return null;

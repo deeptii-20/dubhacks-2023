@@ -50,6 +50,11 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+        // if paused, do nothing
+        if (UIManager.GetComponent<UIManager>().isPaused) {
+            return;
+        }
+
         UpdateDragIdentity();
 
         UpdateAttack();
@@ -69,6 +74,11 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        // if paused, do nothing
+        if (UIManager.GetComponent<UIManager>().isPaused) {
+            return;
+        }
+
         UpdateMove();
 
         // Drag goes after player movement update.

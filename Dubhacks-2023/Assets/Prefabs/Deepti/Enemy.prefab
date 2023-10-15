@@ -28,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 3525305362643450722}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2, y: 2, z: 0}
+  m_LocalScale: {x: 2.5, y: 2.5, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3525305363605405695}
@@ -280,7 +280,7 @@ MonoBehaviour:
   possibleMovementTimes:
   - 0.1
   - 0.5
-  Player: {fileID: 8189158725602588139, guid: c645f9da0b8c63c4f8225cfee35e1897, type: 3}
+  Player: {fileID: 0}
   attackRange: 1
-  aggroRange: 5
-  UIManager: {fileID: 7869450831236021175, guid: 278c5c61d9bb4dc4b8177fd92d81e0eb, type: 3}
+  aggroRange: 3
+  UIManager: {fileID: 0}
