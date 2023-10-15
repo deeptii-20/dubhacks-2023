@@ -25,17 +25,17 @@ public class GhostController : MonoBehaviour
     public GhostState currState;
 
     // health
-    public float maxHealth;
-    public float currHealth;
+    public float maxHealth = 5;
+    private float currHealth;
 
     // combat
-    public float baseAttack;
-    public float baseAttackDuration;
-    public float baseAttackCooldown;
+    public float baseAttack = 1;
+    public float baseAttackDuration = 0.5f;
+    public float baseAttackCooldown = 3;
     private float currAttackCooldown;
 
     // movement
-    public float baseSpeed;
+    public float baseSpeed = 2.5f;
     public Vector2[] possibleDirections = {
         Vector2.up,
         Vector2.down,
@@ -48,8 +48,8 @@ public class GhostController : MonoBehaviour
 
     // Player gameObject (for chase navigation)
     public GameObject Player;
-    public float attackRange;
-    public float aggroRange;
+    public float attackRange = 1;
+    public float aggroRange = 3;
 
     // UI Manager
     public GameObject UIManager;
@@ -173,10 +173,13 @@ public class GhostController : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D collider)
     {
-        // take damage from ghost attacks
+        // take damage from player attacks
         if (collider.gameObject.tag == "Projectile") {
             currHealth -= collider.gameObject.GetComponent<ProjectileController>().attackDamage;
             collider.gameObject.GetComponent<ProjectileController>().Explode();
+        }
+        if (collider.gameObject.tag == "Slash") {
+            currHealth -= collider.gameObject.GetComponent<SlashController>().attackDamage;
         }
     }
 }

@@ -8,18 +8,28 @@ public class PlayerController : MonoBehaviour
     public GameObject UIManager;
 
     // health
-    public float baseHealth;
-    public float baseHealthDrain;
-    public float baseHealthDrainCooldown;
+    public float baseHealth = 50;
+    public float baseHealthDrain = 1;
+    public float baseHealthDrainCooldown = 5;
     private float currHealth;
     private float currHealthDrainCooldown;
     private int numCapturedGhosts;
 
-    // combat
+    // melee combat
+    public GameObject slash;
+    public float meleeAttackDamage = 1;
+    public float baseMeleeAttackCooldown = 0.5f;
+    public float meleeAttackHealthDrain = 3;
+    private float currMeleeAttackCooldown;
+
+    // ranged combat
     public GameObject projectile;
-    public float attackDamage;
-    public float baseAttackCooldown;
-    private float currAttackCooldown;
+    public float rangedAttackDamage = 3;
+    
+    public float rangedAttackHealthDrain = 1;
+    
+    public float baseRangedAttackCooldown = 1.5f;
+    private float currRangedAttackCooldown;
 
     // interact
     private static float INTERACT_RADIUS = 1.5f;
@@ -60,23 +70,18 @@ public class PlayerController : MonoBehaviour
 
         UpdateDragIdentity();
 
-        if (currAttackCooldown <= 0) {
-            UpdateAttack();
-        } else {
-            currAttackCooldown -= Time.deltaTime;
-        }
+        UpdateAttack();
+        currMeleeAttackCooldown -= Time.deltaTime;
+        currRangedAttackCooldown -= Time.deltaTime;
 
         UpdateInteract();
 
         // take damage from health drain by carrying ghosts
         if (currHealthDrainCooldown <= 0) {
             currHealthDrainCooldown = baseHealthDrainCooldown;
-            currHealth -= baseHealthDrain * numCapturedGhosts;
+            TakeDamage(baseHealthDrain * numCapturedGhosts, true);
         }
         currHealthDrainCooldown -= Time.deltaTime;
-
-        // update game overlay with latest stats
-        UIManager.GetComponent<UIManager>().UpdateGameOverlay(currHealth, numCapturedGhosts);
     }
 
     private void FixedUpdate()
@@ -94,27 +99,61 @@ public class PlayerController : MonoBehaviour
 
     ///// COMBAT RELATED STUFF
     private void UpdateAttack() {
-        if (Input.GetButtonDown("Attack")) {
-            currAttackCooldown = baseAttackCooldown;
+        if (Input.GetButtonDown("Melee Attack") && currMeleeAttackCooldown <= 0) {
+            currMeleeAttackCooldown = baseMeleeAttackCooldown;
+            Quaternion rotate = Quaternion.Euler(0, 0, 0);
+            switch(facingDirection) {
+                case Vector2 v when v.Equals(Vector3.up):
+                    rotate = Quaternion.Euler(0, 0, 0);
+                    break;
+                case Vector2 v when v.Equals(Vector3.left):
+                    rotate = Quaternion.Euler(0, 0, 90);
+                    break;
+                case Vector2 v when v.Equals(Vector3.down):
+                    rotate = Quaternion.Euler(0, 0, 180);
+                    break;
+                case Vector2 v when v.Equals(Vector3.right):
+                    rotate = Quaternion.Euler(0, 0, 270);
+                    break;
+            }
+            GameObject s = Instantiate(slash, (Vector2)transform.position + facingDirection, rotate, transform);
+            s.GetComponent<SlashController>().SetParams(meleeAttackDamage, baseMeleeAttackCooldown / 2);
+            TakeDamage(meleeAttackHealthDrain, true);
+        } else if (Input.GetButtonDown("Ranged Attack") && currRangedAttackCooldown <= 0) {
+            currRangedAttackCooldown = baseRangedAttackCooldown;
             GameObject p = Instantiate(projectile, transform.position, transform.rotation);
-            p.GetComponent<ProjectileController>().SetParams((Vector2)transform.position, facingDirection, attackDamage);
+            p.GetComponent<ProjectileController>().SetParams((Vector2)transform.position, facingDirection, rangedAttackDamage);
+            TakeDamage(rangedAttackHealthDrain, true);
         }
+    }
+
+    public void TakeDamage(float drainAmount, bool isDrain) {
+        currHealth -= drainAmount;
+        UIManager.GetComponent<UIManager>().UpdateHealthOverlay(currHealth, isDrain);
     }
 
      public void CaptureGhost(GameObject enemy) {
         numCapturedGhosts++;
         enemy.GetComponent<GhostController>().Captured();
+        UIManager.GetComponent<UIManager>().UpdateGhostsOverlay(numCapturedGhosts);
     }
 
     public void KillGhost(GameObject enemy) {
         enemy.GetComponent<GhostController>().Dead();
     }
 
+    public void ReleaseGhosts() {
+        // TODO: play ghost release animation
+        numCapturedGhosts = 0;
+        UIManager.GetComponent<UIManager>().UpdateGhostsOverlay(numCapturedGhosts);
+
+    }
+
     void OnTriggerEnter2D(Collider2D collider)
     {
         // take damage from ghost attacks
         if (collider.gameObject.tag == "Hazard") {
-            currHealth -= collider.gameObject.GetComponent<GhostAttack>().attackDamage;
+            TakeDamage(collider.gameObject.GetComponent<GhostAttack>().attackDamage, false);
         }
     }
 
@@ -132,6 +171,9 @@ public class PlayerController : MonoBehaviour
                                 res.gameObject.GetComponent<VillagerController>().dialogue
                             ));
                         }
+                        break;
+                    case "Monument":
+                        ReleaseGhosts();
                         break;
                     default:
                         break;

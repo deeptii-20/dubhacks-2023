@@ -147,10 +147,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   UIManager: {fileID: 0}
-  baseHealth: 10
+  baseHealth: 50
   baseHealthDrain: 1
   baseHealthDrainCooldown: 5
+  slash: {fileID: 6624227569444760133, guid: c305ff18426e8b446bd09d64f44ff454, type: 3}
+  meleeAttackDamage: 1
+  baseMeleeAttackCooldown: 0.5
+  meleeAttackHealthDrain: 3
   projectile: {fileID: 5648579640542601158, guid: f6acf616f82b03f46b22eee2cc2b489a, type: 3}
-  attackDamage: 1
-  baseAttackCooldown: 0.5
-  moveSpeed: 12.5
+  rangedAttackDamage: 3
+  rangedAttackHealthDrain: 1
+  baseRangedAttackCooldown: 1.5
+  moveSpeed: 10
