@@ -14,8 +14,12 @@ public class VillagerController : MonoBehaviour
 
     private Renderer rend;
 
+    // General villager fields
+    private Vector2 facingDirection;
+
     // Body sighting related fields
-    private static float VIEW_RADIUS = 5.0f;
+    private static float VISION_RADIUS = 5.0f;
+    private static string CORPSE_TAG = "Corpse";
 
     // Start is called before the first frame update
     void Start()
@@ -28,15 +32,21 @@ public class VillagerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        CheckForCorpses();
     }
 
-    void CheckForBodies()
+    void CheckForCorpses()
     {
-        if (rend.isVisible)
+        // if (rend.isVisible) (if on camera)
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, VISION_RADIUS);
+
+        foreach (Collider2D collider in colliders)
         {
-            Debug.Log(name + "Object is visible from the camera.");
-            // is there a body in my vicinity?
+            if (collider.CompareTag(CORPSE_TAG))
+            {
+                // Do something with the detected object with the target tag
+                Debug.Log(name + " Detected: " + collider.gameObject.name);
+            }
         }
     }
 }
