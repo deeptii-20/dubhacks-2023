@@ -45,11 +45,13 @@ public class GhostController : MonoBehaviour
     public float[] possibleMovementTimes = {0.1f, 0.5f};
     private Vector2 currDirection;
     private float currMovementTime;
+    private float canGoThroughWalls;
 
     // Player gameObject (for chase navigation)
     public GameObject Player;
     public float attackRange = 1;
     public float aggroRange = 3;
+    
 
     // UI Manager
     public GameObject UIManager;
@@ -87,16 +89,19 @@ public class GhostController : MonoBehaviour
                     currState = GhostState.Aggravated;
                 } else {
                     // else continue wandering
+                    GetComponent<BoxCollider2D>().isTrigger = false;
                     Wander();
                 }
                 break;
             case GhostState.Aggravated:
                 if (playerInAttackRange()) {
                     // if player is in attack range, attack
+                    GetComponent<BoxCollider2D>().isTrigger = false;
                     Attack();
                 } else if (playerInAggroRange()) {
                     // else if player is in aggro range, chase
                     currAttackCooldown = baseAttackCooldown / 3;
+                    GetComponent<BoxCollider2D>().isTrigger = true;
                     Chase();
                 } else {
                     // else switch to angry
@@ -104,7 +109,8 @@ public class GhostController : MonoBehaviour
                 }                
                 break;
             case GhostState.Peaceful:
-                // if paceful, do nothing
+                // if peaceful, do nothing
+                GetComponent<BoxCollider2D>().isTrigger = false;
                 break;
         }
     }
@@ -122,6 +128,12 @@ public class GhostController : MonoBehaviour
         if (currMovementTime <= 0) {
             currDirection = possibleDirections[Random.Range(0, possibleDirections.Length)];
             currMovementTime = Random.Range(possibleMovementTimes[0], possibleMovementTimes[1]);
+            // if we would hit a wall, go in the opposite direction
+            RaycastHit2D hit = Physics2D.Raycast(transform.position, currDirection, 3.0f, LayerMask.GetMask("Environment"));
+            if (hit.collider != null)
+                currDirection *= -1;
+            {
+        }
         }
         transform.Translate(currDirection * Time.deltaTime * baseSpeed);
         currMovementTime -= Time.deltaTime;

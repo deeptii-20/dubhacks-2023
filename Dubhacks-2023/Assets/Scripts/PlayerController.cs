@@ -100,7 +100,6 @@ public class PlayerController : MonoBehaviour
         }
 
         UpdateMove();
-        UpdateMoveAnimation();
 
         // Drag goes after player movement update.
         UpdateDragMovement();
@@ -111,12 +110,15 @@ public class PlayerController : MonoBehaviour
         if (Input.GetButtonDown("Melee Attack") && currMeleeAttackCooldown <= 0 && currHealth >= meleeAttackHealthDrain) {
             currMeleeAttackCooldown = baseMeleeAttackCooldown;
             Quaternion rotate = Quaternion.Euler(0, 0, 0);
+            bool isBehindPlayer = false;
             switch(facingDirection) {
                 case Vector2 v when v.Equals(Vector2.up):
                     rotate = Quaternion.Euler(0, 0, 0);
+                    isBehindPlayer = true;
                     break;
                 case Vector2 v when v.Equals(new Vector2(-1, 1)):
                     rotate = Quaternion.Euler(0, 0, 45);
+                    isBehindPlayer = true;
                     break;
                 case Vector2 v when v.Equals(Vector2.left):
                     rotate = Quaternion.Euler(0, 0, 90);
@@ -131,20 +133,24 @@ public class PlayerController : MonoBehaviour
                     rotate = Quaternion.Euler(0, 0, 225);
                     break;
                 case Vector2 v when v.Equals(Vector2.right):
-                    rotate = Quaternion.Euler(0, 0, 270);
+                    rotate = Quaternion.Euler(180, 0, 270);
                     break;
                 case Vector2 v when v.Equals(new Vector2(1, 1)):
                     rotate = Quaternion.Euler(0, 0, 315);
+                    isBehindPlayer = true;
                     break;
             }
             GameObject s = Instantiate(slash, (Vector2)transform.position + facingDirection * 0.5f, rotate, transform);
             s.GetComponent<SlashController>().SetParams(meleeAttackDamage, baseMeleeAttackCooldown / 2);
+            s.GetComponent<SpriteRenderer>().sortingOrder = isBehindPlayer ? 0 : 1;
             TakeDamage(meleeAttackHealthDrain, true);
+            StartCoroutine(UpdateAttackAnimation());
         } else if (Input.GetButtonDown("Ranged Attack") && currRangedAttackCooldown <= 0 && currHealth >= rangedAttackHealthDrain) {
             currRangedAttackCooldown = baseRangedAttackCooldown;
             GameObject p = Instantiate(projectile, transform.position, transform.rotation);
             p.GetComponent<ProjectileController>().SetParams((Vector2)transform.position, facingDirection, rangedAttackDamage);
             TakeDamage(rangedAttackHealthDrain, true);
+            StartCoroutine(UpdateAttackAnimation());
         }
     }
 
@@ -201,6 +207,7 @@ public class PlayerController : MonoBehaviour
     {
         // take damage from ghost attacks
         if (collider.gameObject.tag == "Hazard") {
+            StartCoroutine(UpdateTakeDamageAnimation());
             TakeDamage(collider.gameObject.GetComponent<GhostAttack>().attackDamage, false);
         }
     }
@@ -263,23 +270,7 @@ public class PlayerController : MonoBehaviour
 
         // Apply velocity to the Rigidbody to move the player
         rb.velocity = moveInput * moveSpeed;
-    }
-
-    private void UpdateMoveAnimation() {
-        switch(facingDirection) {
-            case Vector2 v when v.Equals(Vector3.down):
-                GetComponent<Animator>().SetInteger("MoveDirection", 0);
-                break;
-            case Vector2 v when v.Equals(Vector3.up):
-                GetComponent<Animator>().SetInteger("MoveDirection", 1);
-                break;
-            case Vector2 v when v.Equals(Vector3.left):
-                GetComponent<Animator>().SetInteger("MoveDirection", 2);
-                break;
-            case Vector2 v when v.Equals(Vector3.right):
-                GetComponent<Animator>().SetInteger("MoveDirection", 3);
-                break; 
-        }
+        UpdateMoveAnimation();
     }
 
     ///// DRAGGING RELATED STUFF
@@ -333,6 +324,35 @@ public class PlayerController : MonoBehaviour
             res = hit.rigidbody;
         }
         return res;
+    }
+
+    private void UpdateMoveAnimation() {
+        switch(facingDirection) {
+            case Vector2 v when v.Equals(Vector3.down):
+                GetComponent<Animator>().SetInteger("MoveDirection", 0);
+                break;
+            case Vector2 v when v.Equals(Vector3.up):
+                GetComponent<Animator>().SetInteger("MoveDirection", 1);
+                break;
+            case Vector2 v when v.Equals(Vector3.left):
+                GetComponent<Animator>().SetInteger("MoveDirection", 2);
+                break;
+            case Vector2 v when v.Equals(Vector3.right):
+                GetComponent<Animator>().SetInteger("MoveDirection", 3);
+                break; 
+        }
+    }
+
+    private IEnumerator UpdateAttackAnimation() {
+        GetComponent<Animator>().SetBool("Attack", true);
+        yield return new WaitForSeconds(0.5f);
+        GetComponent<Animator>().SetBool("Attack", false);
+    }
+
+    private IEnumerator UpdateTakeDamageAnimation() {
+        GetComponent<Animator>().SetBool("TakeDamage", true);
+        yield return new WaitForSeconds(0.1f);
+        GetComponent<Animator>().SetBool("TakeDamage", false);
     }
 
 }

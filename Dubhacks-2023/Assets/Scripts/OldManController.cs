@@ -21,8 +21,8 @@ public class OldManController : MonoBehaviour
 
     // cemetery
     public GameObject PeacefulGhost;
-    public Vector2 monumentPos;     // cemetery center
-    public float[] cemeterySize;    // [width, height]
+    public Vector2 monumentPos = Vector2.zero; // cemetery center
+    public float[] cemeterySize = new float[] {6, 4};   // [width, height]
 
     // dialogue for talking directly to old man
     public string[] introTalking;   // talk to old man for the first time (no ghosts)
