@@ -18,6 +18,7 @@ public class VillagerController : MonoBehaviour
 
     // General villager fields
     private static Color COLOR_WHEN_SUS = Color.red;
+    public float MOVE_SPEED = 10.0f;
     private Vector2 facingDirection;
     public VillagerState vstate;
 
@@ -28,19 +29,23 @@ public class VillagerController : MonoBehaviour
     private static string CORPSE_TAG = "Corpse";
     private static string VILLAGER_TAG = "Villager";
 
-    // Pathfind to old man fields
+    // Pathfind to old man static fields
     private static float PATH_RADIUS = 10.0f; // max distance to identify what is a "clear" area to walk
     private static LayerMask PATH_BLOCK_MASK; // pathfinding is only blocked by environment
-    private static float VELOCITY_UPDATE_INTERVAL = 2.0f; // how often velocity direction should update
+    public float VELOCITY_UPDATE_THRESHOLD = 0.03f;
     private static Vector2[] VELOCITY_DIRECTIONS = new Vector2[]{
         new Vector2(-1, 0), new Vector2(-1, 1), new Vector2(0, 1), new Vector2(1, 1),
         new Vector2(1, 0), new Vector2(1, -1), new Vector2(0, -1), new Vector2(-1, -1)
     };
-    private static float MAX_RANDOM_WEIGHT = 0.5f; // max weight of the random weight
-    private static float MAX_ENV_DIST_WEIGHT = 1.0f;
-    private static float MAX_OLD_MAN_WEIGHT = 1.0f;
+    // Pathfinding: non-static tunable vars, determined by our pathfinding training area
+    public float MAX_RANDOM_WEIGHT = 0.3f; // max weight of the random weight
+    public float MAX_ENV_DIST_WEIGHT = 0.8f;
+    public float MAX_OLD_MAN_WEIGHT = 0.5f;
 
-    // Find old man
+    // Private
+    private Vector2 currVelocity;
+
+    // Pathfinding: gather old man position
     private static string OLD_MAN_TAG = "OldMan";
     private static Transform OLD_MAN_TRANSFORM;
 
@@ -56,12 +61,21 @@ public class VillagerController : MonoBehaviour
         VISION_OCCLUDE_MASK = LayerMask.GetMask("Moveable", "Environment");
         PATH_BLOCK_MASK = LayerMask.GetMask("Environment");
         facingDirection = new Vector2(0, -1);
+        currVelocity = new Vector2(0, 0);
     }
 
     // Update is called once per frame
     void Update()
     {
         CheckForSuspiciousActivity();
+    }
+    private void FixedUpdate()
+    {
+        if (vstate == VillagerState.Suspicious && Random.Range(0f, 1.0f) < VELOCITY_UPDATE_THRESHOLD)
+        {
+            UpdateVelocity();
+        }
+        rb.velocity = currVelocity;
     }
 
     // Updates villager to be suspicious, if needed.
@@ -107,19 +121,17 @@ public class VillagerController : MonoBehaviour
     {
         vstate = VillagerState.Suspicious;
         rend.material.color = COLOR_WHEN_SUS;
+        rb.bodyType = RigidbodyType2D.Dynamic;
+        rb.freezeRotation = true;
+        rb.gravityScale = 0;
+        rb.drag = 100;
         // Call the UpdateVelocity method periodically.
-        InvokeRepeating("UpdateVelocity", 0f, VELOCITY_UPDATE_INTERVAL);
+        UpdateVelocity();
     }
 
     // Updates the direction of walking, in an attempt to pathfind to old man.
     private void UpdateVelocity()
-    {
-        // Random chance of not updating velocity
-        if (Random.Range(0, 1) < 0.5f)
-        {
-            return;
-        }
-
+    {        
         // Create the weights corresponding to 8 directions to walk in.
         float[] weights = Enumerable.Range(0, VELOCITY_DIRECTIONS.Length).Select(_ => Random.Range(0.0f, MAX_RANDOM_WEIGHT)).ToArray();
 
@@ -131,14 +143,12 @@ public class VillagerController : MonoBehaviour
             // update weight according to dist from occluding environment
             float envDist = GetDistFromEnv(dir, transform.position, PATH_RADIUS);
             weights[i] += Mathf.Lerp(0.0f, MAX_ENV_DIST_WEIGHT, envDist / PATH_RADIUS);
-
-            Debug.Log("env dist weight dir " + dir + ": " + Mathf.Lerp(0.0f, MAX_ENV_DIST_WEIGHT, envDist / PATH_RADIUS));
+            //Debug.Log("env dist weight dir " + dir + ": " + Mathf.Lerp(0.0f, MAX_ENV_DIST_WEIGHT, envDist / PATH_RADIUS));
 
             // update weight according to angle to old man
             float angleToMan = Vector2.Angle(dir, (OLD_MAN_TRANSFORM.position - transform.position));
             weights[i] += Mathf.Lerp(MAX_OLD_MAN_WEIGHT, 0.0f, angleToMan / 180.0f);
-
-            Debug.Log("old man weight for dir " + dir + ": " + Mathf.Lerp(MAX_OLD_MAN_WEIGHT, 0.0f, angleToMan / 180.0f));
+            //Debug.Log("old man weight for dir " + dir + ": " + Mathf.Lerp(MAX_OLD_MAN_WEIGHT, 0.0f, angleToMan / 180.0f));
         }
 
         // Choose the best weight
@@ -150,7 +160,16 @@ public class VillagerController : MonoBehaviour
                 bestDir = i;
             }
         }
-        rb.velocity = VELOCITY_DIRECTIONS[bestDir];
+        currVelocity = VELOCITY_DIRECTIONS[bestDir].normalized * MOVE_SPEED;
+        Debug.Log(rb.velocity);
+    }
+
+    // DO NOT CALL ME
+    public void InitRandomPathfindingVars()
+    {
+        MAX_RANDOM_WEIGHT = Random.Range(0f, 1f);
+        MAX_ENV_DIST_WEIGHT = Random.Range(0f, 1f);
+        MAX_OLD_MAN_WEIGHT = Random.Range(0f, 1f);
     }
 
     // Returns distance to environment
