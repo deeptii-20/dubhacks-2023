@@ -99,6 +99,7 @@ public class PlayerController : MonoBehaviour
         }
 
         UpdateMove();
+        UpdateMoveAnimation();
 
         // Drag goes after player movement update.
         UpdateDragMovement();
@@ -110,20 +111,32 @@ public class PlayerController : MonoBehaviour
             currMeleeAttackCooldown = baseMeleeAttackCooldown;
             Quaternion rotate = Quaternion.Euler(0, 0, 0);
             switch(facingDirection) {
-                case Vector2 v when v.Equals(Vector3.up):
+                case Vector2 v when v.Equals(Vector2.up):
                     rotate = Quaternion.Euler(0, 0, 0);
                     break;
-                case Vector2 v when v.Equals(Vector3.left):
+                case Vector2 v when v.Equals(new Vector2(-1, 1)):
+                    rotate = Quaternion.Euler(0, 0, 45);
+                    break;
+                case Vector2 v when v.Equals(Vector2.left):
                     rotate = Quaternion.Euler(0, 0, 90);
                     break;
-                case Vector2 v when v.Equals(Vector3.down):
+                case Vector2 v when v.Equals(new Vector2(-1, -1)):
+                    rotate = Quaternion.Euler(0, 0, 135);
+                    break;
+                case Vector2 v when v.Equals(Vector2.down):
                     rotate = Quaternion.Euler(0, 0, 180);
                     break;
-                case Vector2 v when v.Equals(Vector3.right):
+                case Vector2 v when v.Equals(new Vector2(1, -1)):
+                    rotate = Quaternion.Euler(0, 0, 225);
+                    break;
+                case Vector2 v when v.Equals(Vector2.right):
                     rotate = Quaternion.Euler(0, 0, 270);
                     break;
+                case Vector2 v when v.Equals(new Vector2(1, 1)):
+                    rotate = Quaternion.Euler(0, 0, 315);
+                    break;
             }
-            GameObject s = Instantiate(slash, (Vector2)transform.position + facingDirection, rotate, transform);
+            GameObject s = Instantiate(slash, (Vector2)transform.position + facingDirection * 0.5f, rotate, transform);
             s.GetComponent<SlashController>().SetParams(meleeAttackDamage, baseMeleeAttackCooldown / 2);
             TakeDamage(meleeAttackHealthDrain, true);
         } else if (Input.GetButtonDown("Ranged Attack") && currRangedAttackCooldown <= 0 && currHealth >= rangedAttackHealthDrain) {
@@ -251,6 +264,22 @@ public class PlayerController : MonoBehaviour
         rb.velocity = moveInput * moveSpeed;
     }
 
+    private void UpdateMoveAnimation() {
+        switch(facingDirection) {
+            case Vector2 v when v.Equals(Vector3.down):
+                GetComponent<Animator>().SetInteger("MoveDirection", 0);
+                break;
+            case Vector2 v when v.Equals(Vector3.up):
+                GetComponent<Animator>().SetInteger("MoveDirection", 1);
+                break;
+            case Vector2 v when v.Equals(Vector3.left):
+                GetComponent<Animator>().SetInteger("MoveDirection", 2);
+                break;
+            case Vector2 v when v.Equals(Vector3.right):
+                GetComponent<Animator>().SetInteger("MoveDirection", 3);
+                break; 
+        }
+    }
 
     ///// DRAGGING RELATED STUFF
     private void UpdateDragMovement()
