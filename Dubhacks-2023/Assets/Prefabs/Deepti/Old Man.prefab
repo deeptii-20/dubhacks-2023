@@ -151,10 +151,9 @@ MonoBehaviour:
   numVillagers: 0
   totalNumGhosts: 0
   numCapturedGhosts: 0
-  PeacefulGhost: {fileID: 3525305363605405690, guid: 3db6b12ae9deeca4c9f6f9159cc45a1f, type: 3}
-  monumentPos: {x: 0, y: 0}
+  monumentPos: {x: 0, y: 3}
   cemeterySize:
-  - 6
+  - 5
   - 4
   introTalking:
   - Welcome to our small village, traveler from afar.
