@@ -19,6 +19,11 @@ public class OldManController : MonoBehaviour
     public int totalNumGhosts;
     public int numCapturedGhosts;
 
+    // cemetery
+    public GameObject PeacefulGhost;
+    public Vector2 monumentPos;     // cemetery center
+    public float[] cemeterySize;    // [width, height]
+
     // dialogue for talking directly to old man
     public string[] introTalking;   // talk to old man for the first time (no ghosts)
     public string[] introHasGhostsTalking;  // talk to old man for the first time (have ghosts)
@@ -49,6 +54,17 @@ public class OldManController : MonoBehaviour
     void Update()
     {
         numVillagers = GameObject.FindGameObjectsWithTag("Villager").Length;
+    }
+
+    public void SummonPeacefulGhosts(int numGhosts) {
+        for (int i = 0; i < numGhosts; i++) {
+            // pick a random location within cemetary bounds
+            Vector2 randPos = new Vector2(
+                monumentPos.y + Random.Range(-cemeterySize[0] / 2, cemeterySize[0] / 2), 
+                monumentPos.y + Random.Range(-cemeterySize[1] / 2, cemeterySize[1] / 2)
+            );
+            Instantiate(PeacefulGhost, randPos, Quaternion.Euler(0, 0, 0));
+        }
     }
 
     public string[] GetTalkingDialogue(bool hasGhosts) {
