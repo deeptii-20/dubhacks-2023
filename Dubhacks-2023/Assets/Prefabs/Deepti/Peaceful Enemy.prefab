@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 3525305363605405694}
   - component: {fileID: 3525305363605405689}
   - component: {fileID: 3525305363605405688}
+  - component: {fileID: -6828916722319094927}
+  - component: {fileID: 834727087791566205}
   m_Layer: 0
   m_Name: Peaceful Enemy
   m_TagString: Untagged
@@ -72,9 +74,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingLayerID: 1278037147
+  m_SortingLayer: 4
+  m_SortingOrder: 5
   m_Sprite: {fileID: 232443721, guid: 5b786dc5527a41d49a57fb946ca15c34, type: 3}
   m_Color: {r: 0.70220715, g: 0.8490566, b: 0.7061232, a: 0.27450982}
   m_FlipX: 0
@@ -133,3 +135,40 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &-6828916722319094927
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3525305363605405690}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe90a2cb8d646194986562adba7dbaef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 0}
+  distFromPlayer: 0
+  baseSpeed: 0
+  isAtRest: 0
+--- !u!95 &834727087791566205
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3525305363605405690}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 22a857cb40b4a8a41af4394221a2f541, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0

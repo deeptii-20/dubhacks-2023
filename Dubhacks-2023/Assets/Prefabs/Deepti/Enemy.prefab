@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 3525305362643450720}
   - component: {fileID: 3525305362643450721}
   - component: {fileID: 3525305362643450726}
+  - component: {fileID: 7076998960510653366}
   m_Layer: 0
   m_Name: Attack
   m_TagString: Hazard
@@ -115,6 +116,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackDamage: 1
+--- !u!95 &7076998960510653366
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3525305362643450722}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 586c17607680d694eb5dd08b81d60d3f, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &3525305363605405690
 GameObject:
   m_ObjectHideFlags: 0
@@ -128,6 +150,7 @@ GameObject:
   - component: {fileID: 3525305363605405689}
   - component: {fileID: 3525305363605405688}
   - component: {fileID: 3525305363605405691}
+  - component: {fileID: 7008397217182016461}
   m_Layer: 6
   m_Name: Enemy
   m_TagString: Enemy
@@ -189,8 +212,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -1638205467
-  m_SortingLayer: 6
+  m_SortingLayerID: 1278037147
+  m_SortingLayer: 4
   m_SortingOrder: 1
   m_Sprite: {fileID: 232443721, guid: 5b786dc5527a41d49a57fb946ca15c34, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 0.6862745}
@@ -284,3 +307,24 @@ MonoBehaviour:
   attackRange: 1
   aggroRange: 3
   UIManager: {fileID: 0}
+--- !u!95 &7008397217182016461
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3525305363605405690}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 4605335baa7083e42a3c63822ae1def1, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
