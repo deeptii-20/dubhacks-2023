@@ -162,5 +162,7 @@ MonoBehaviour:
   rangedAttackHealthDrain: 1
   baseRangedAttackCooldown: 1
   moveSpeed: 10
+  facingDirection: {x: 0, y: 0}
+  peacefulGhost: {fileID: 3525305363605405690, guid: 3db6b12ae9deeca4c9f6f9159cc45a1f, type: 3}
   ghost: {fileID: 3525305363605405690, guid: 1bf7068442be2174ea753c4b6e904229, type: 3}
   corpse: {fileID: 6089781325240495481, guid: f39bfb15b48978c4b9c235fc8eb2514c, type: 3}

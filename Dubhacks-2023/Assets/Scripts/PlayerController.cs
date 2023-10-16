@@ -161,6 +161,9 @@ public class PlayerController : MonoBehaviour
         // destroy ghost and add peaceful ghost to trail
         Destroy(enemy);
         GameObject pg = Instantiate(peacefulGhost, transform.position, transform.rotation);
+        pg.GetComponent<PeacefulGhostController>().player = this.gameObject;
+        pg.GetComponent<PeacefulGhostController>().distFromPlayer = numCapturedGhosts;
+        pg.GetComponent<PeacefulGhostController>().baseSpeed = moveSpeed;
         pg.tag = "Ghost Trail";
     }
 
@@ -168,10 +171,10 @@ public class PlayerController : MonoBehaviour
         // TODO: play ghost release animation
         OldMan.GetComponent<OldManController>().numCapturedGhosts += numCapturedGhosts;
         foreach (GameObject pg in GameObject.FindGameObjectsWithTag("Ghost Trail")) {
-            Destroy(pg);
-            OldMan.GetComponent<OldManController>().SummonPeacefulGhosts(1);
+            pg.tag = "Untagged";
+            OldMan.GetComponent<OldManController>().PlacePeacefulGhost(pg);
         }
-        // update UI
+        // update dialogue
         StartCoroutine(UIManager.GetComponent<UIManager>().ShowOneResponseDialogue(
             OldMan.GetComponent<OldManController>().GetMonumentDialogue(numCapturedGhosts > 0),
             OldMan,
