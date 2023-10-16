@@ -95,6 +95,7 @@ public class PlayerController : MonoBehaviour
     {
         // if paused, do nothing
         if (UIManager.GetComponent<UIManager>().isPaused) {
+            rb.velocity = Vector2.zero;
             return;
         }
 

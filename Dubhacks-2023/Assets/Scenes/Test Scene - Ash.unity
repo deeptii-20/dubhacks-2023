@@ -731,6 +731,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1634037218, guid: c5ec968fa6a4d134cad8a01cbeaa33d7, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1634037222, guid: c5ec968fa6a4d134cad8a01cbeaa33d7, type: 3}
       propertyPath: m_Camera
       value: 
@@ -787,14 +791,30 @@ PrefabInstance:
       propertyPath: m_Name
       value: UI
       objectReference: {fileID: 0}
+    - target: {fileID: 4291523988868975017, guid: c5ec968fa6a4d134cad8a01cbeaa33d7, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4291523988876960948, guid: c5ec968fa6a4d134cad8a01cbeaa33d7, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4291523988876960953, guid: c5ec968fa6a4d134cad8a01cbeaa33d7, type: 3}
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 385653475}
+    - target: {fileID: 4291523989361698789, guid: c5ec968fa6a4d134cad8a01cbeaa33d7, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4291523989361698794, guid: c5ec968fa6a4d134cad8a01cbeaa33d7, type: 3}
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 385653475}
+    - target: {fileID: 6968636318351067516, guid: c5ec968fa6a4d134cad8a01cbeaa33d7, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c5ec968fa6a4d134cad8a01cbeaa33d7, type: 3}
 --- !u!1001 &1079532065
