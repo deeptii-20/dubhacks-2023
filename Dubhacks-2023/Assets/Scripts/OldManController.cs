@@ -20,8 +20,8 @@ public class OldManController : MonoBehaviour
     public int numCapturedGhosts;
 
     // cemetery
-    public Vector2 monumentPos = Vector2.zero; // cemetery center
-    public float[] cemeterySize = new float[] {6, 4};   // [width, height]
+    public Vector2 monumentPos = new Vector3(0, 3); // cemetery center
+    public float[] cemeterySize = new float[] {5, 4};   // [width, height]
 
     // dialogue for talking directly to old man
     public string[] introTalking;   // talk to old man for the first time (no ghosts)
@@ -58,8 +58,8 @@ public class OldManController : MonoBehaviour
     public void PlacePeacefulGhost(GameObject ghost) {
             // pick a random location within cemetary bounds
             Vector2 randPos = new Vector2(
-                monumentPos.y + Random.Range(cemeterySize[0] / 2, cemeterySize[0]) * (Random.Range(0.0f, 1.0f) > 0.5f ? -1 : 1), 
-                monumentPos.y + Random.Range(cemeterySize[1] / 2, cemeterySize[1]) * (Random.Range(0.0f, 1.0f) > 0.5f ? -1 : 1)
+                monumentPos.y + Random.Range(2.0f, cemeterySize[0]) * (Random.Range(0.0f, 1.0f) > 0.5f ? -1 : 1), 
+                monumentPos.y - Random.Range(1.5f, cemeterySize[1])
             );
             // move ghost to that location and mark as at rest
             StartCoroutine(ghost.GetComponent<PeacefulGhostController>().MoveToRestPos(randPos));

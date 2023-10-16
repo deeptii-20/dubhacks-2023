@@ -49,7 +49,7 @@ public class GhostController : MonoBehaviour
 
     // Player gameObject (for chase navigation)
     public GameObject Player;
-    public float attackRange = 1;
+    public float attackRange = 1.5f;
     public float aggroRange = 3;
     
 
