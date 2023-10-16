@@ -65,3 +65,6 @@ TagManager:
   - name: Player
     uniqueID: 346180845
     locked: 0
+  - name: Ghost
+    uniqueID: 2656761829
+    locked: 0
