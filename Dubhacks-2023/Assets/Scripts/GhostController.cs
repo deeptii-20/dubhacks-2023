@@ -129,7 +129,7 @@ public class GhostController : MonoBehaviour
             currDirection = possibleDirections[Random.Range(0, possibleDirections.Length)];
             currMovementTime = Random.Range(possibleMovementTimes[0], possibleMovementTimes[1]);
             // if we would hit a wall, go in the opposite direction
-            RaycastHit2D hit = Physics2D.Raycast(transform.position, currDirection, 3.0f, LayerMask.GetMask("Environment"));
+            RaycastHit2D hit = Physics2D.Raycast(transform.position, currDirection, 1.0f, LayerMask.GetMask("Environment"));
             if (hit.collider != null)
                 currDirection *= -1;
             {

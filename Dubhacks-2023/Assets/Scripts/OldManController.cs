@@ -20,7 +20,6 @@ public class OldManController : MonoBehaviour
     public int numCapturedGhosts;
 
     // cemetery
-    public GameObject PeacefulGhost;
     public Vector2 monumentPos = Vector2.zero; // cemetery center
     public float[] cemeterySize = new float[] {6, 4};   // [width, height]
 
