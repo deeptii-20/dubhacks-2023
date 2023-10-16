@@ -142,7 +142,7 @@ public class PlayerController : MonoBehaviour
             }
             GameObject s = Instantiate(slash, (Vector2)transform.position + facingDirection * 0.5f, rotate, transform);
             s.GetComponent<SlashController>().SetParams(meleeAttackDamage, baseMeleeAttackCooldown / 2);
-            s.GetComponent<SpriteRenderer>().sortingOrder = isBehindPlayer ? 0 : 1;
+            s.GetComponent<SpriteRenderer>().sortingOrder = isBehindPlayer ? -1 : 1;
             TakeDamage(meleeAttackHealthDrain, true);
             StartCoroutine(UpdateAttackAnimation());
         } else if (Input.GetButtonDown("Ranged Attack") && currRangedAttackCooldown <= 0 && currHealth >= rangedAttackHealthDrain) {
