@@ -6,6 +6,7 @@ public enum OldManState {
     Intro = 0,
     GhostChecking = 1,
     Angry = 2,
+    Win = 3,
 }
 
 public class OldManController : MonoBehaviour
@@ -15,37 +16,84 @@ public class OldManController : MonoBehaviour
 
     // game state
     public int numVillagers;
-    public int numGhosts;
+    public int totalNumGhosts;
+    public int numCapturedGhosts;
+
+    // dialogue for talking directly to old man
+    public string[] introTalking;   // talk to old man for the first time (no ghosts)
+    public string[] introHasGhostsTalking;  // talk to old man for the first time (have ghosts)
+    public string[] hasGhostsTalking;   // talk to old man after capturing ghosts
+    public string[] noGhostsTalking;  // talk to old man with no captured ghosts
+    public string[] noVillagersTalking; // talk to old man when no villagers remain
+    public string[] angryTalking;   // talk to old man when he's angry
+
+    // dialogue for releasing ghosts at monument
+    public string[] introMonument;  // interact with monument before talking to the old man (have ghosts)
+    public string[] introNoGhostsMonument;  // interact with monument before talking to the old man (no ghosts)
+    public string[] noGhostsMonument;   // interact with monument with no captured ghosts
+    public string[] hasGhostsMonument;  // interact with monument after capturing ghosts
+    public string[] noVillagersMonument;    // interact with monument when no villagers remain
+    public string[] angryMonument;  // interact with monument when old man is angry
+    public string[] winMonument;    // interact with monument after releasing all ghosts
+
 
     // Start is called before the first frame update
     void Start()
     {
         currState = defaultState;
+        totalNumGhosts = GameObject.FindGameObjectsWithTag("Enemy").Length;
+        numCapturedGhosts = 0;
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        numVillagers = GameObject.FindGameObjectsWithTag("Villager").Length;
     }
 
     public string[] GetTalkingDialogue(bool hasGhosts) {
-        return new string[] {"talking..."};
+        if (currState != OldManState.Angry && numVillagers <= 0) {
+            return noVillagersTalking;
+        }
+        switch(currState) {
+            case OldManState.Intro:
+                currState = OldManState.GhostChecking;
+                if (hasGhosts) {
+                    return introHasGhostsTalking;
+                }
+                return introTalking;
+            case OldManState.GhostChecking:
+                if (hasGhosts) {
+                    return hasGhostsTalking;
+                }
+                return noGhostsTalking;
+            case OldManState.Angry:
+                return angryTalking;
+        }
+        return new string[] {"..."};
     }
 
-    public string[] GetMonumentDialogue() {
-        return new string[] {"monument..."};
+    public string[] GetMonumentDialogue(bool hasGhosts) {
+        if (currState != OldManState.Angry && numVillagers <= 0) {
+            return noVillagersMonument;
+        }
+        switch(currState) {
+            case OldManState.Intro:
+                currState = OldManState.GhostChecking;
+                if (!hasGhosts) {
+                    return introNoGhostsMonument;
+                }
+                introMonument[introMonument.Length - 1] = introMonument[introMonument.Length - 1].Replace("#", "" + (totalNumGhosts - numCapturedGhosts));
+                return introMonument;
+            case OldManState.GhostChecking:
+                if (hasGhosts) {
+                    hasGhostsMonument[hasGhostsMonument.Length - 1] = hasGhostsMonument[hasGhostsMonument.Length - 1].Replace("#", "" + (totalNumGhosts - numCapturedGhosts));
+                    return hasGhostsMonument;
+                }
+                return noGhostsMonument;
+            case OldManState.Angry:
+                return angryMonument;
+        }
+        return new string[] {"..."};
     }
-
-    // NORMAL TALKING TO OLD MAN
-    // intro -> "go find ghosts" -> ghost checking
-    // ghost checking -> has captured -> "why don't you release them at the monument to put them to rest"
-    // ghost checking -> no captured -> small talk -> "go find ghosts"
-    // ghost checking -> no villagers -> "there's no village left to protect" -> game over (lose)
-    // angry -> "you dare show your face after murdering one of our own???" -> game over (lose)
-
-    // INTERACT WITH MONUMENT
-    // intro -> "you're eager aren't you" -> "there are _ more ghosts to pacify" -> ghost checking
-    // ghost checking -> "thanks for releasing their spirits" -> "there are _ more ghosts to pacify"
-    // angry -> "releasing their ghosts isn't enough to earn forgiveness for their murders" -> game over (lose)
 }

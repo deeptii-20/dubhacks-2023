@@ -51,6 +51,10 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D draggedRb; // whatever we're dragging, if any
     private Vector2 playerPrevPos;
 
+    // villager
+    public GameObject ghost;
+    public GameObject corpse;
+
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -135,10 +139,20 @@ public class PlayerController : MonoBehaviour
     }
 
     public void KillVillager(GameObject villager) {
+        // update UI
         currHealth = (currHealth + baseHealthReplenish > baseHealth) ? baseHealth :  currHealth + baseHealthReplenish;
         UIManager.GetComponent<UIManager>().UpdateHealthOverlay(currHealth, false);
-        // TODO: spawn ghost + corpse
+        // destroy villager body
         Destroy(villager);
+
+        // spawn corpse
+        Instantiate(corpse, villager.transform.position, villager.transform.rotation);
+
+        // spawn ghost
+        GameObject g = Instantiate(ghost, (Vector2)villager.transform.position + (Vector2.up * 0.5f), villager.transform.rotation);
+        g.GetComponent<GhostController>().UIManager = this.UIManager;
+        g.GetComponent<GhostController>().Player = this.gameObject;
+        OldMan.GetComponent<OldManController>().totalNumGhosts += 1;
     }
 
     public void CaptureGhost(GameObject enemy) {
@@ -149,12 +163,14 @@ public class PlayerController : MonoBehaviour
 
     public void ReleaseGhosts() {
         // TODO: play ghost release animation and instantiate in cemetery
-        numCapturedGhosts = 0;
+        OldMan.GetComponent<OldManController>().numCapturedGhosts += this.numCapturedGhosts;
+        // update UI
         StartCoroutine(UIManager.GetComponent<UIManager>().ShowOneResponseDialogue(
-            OldMan.GetComponent<OldManController>().GetMonumentDialogue(),
+            OldMan.GetComponent<OldManController>().GetMonumentDialogue(numCapturedGhosts > 0),
             OldMan,
             this.gameObject
         ));
+        numCapturedGhosts = 0;
     }
 
     void OnTriggerEnter2D(Collider2D collider)
@@ -190,7 +206,14 @@ public class PlayerController : MonoBehaviour
                             this.gameObject
                         ));
                         break;
-                    default:
+                    case "Enemy":
+                        if (res.gameObject.GetComponent<GhostController>().currState == GhostState.Peaceful) {
+                            StartCoroutine(UIManager.GetComponent<UIManager>().ShowOneResponseDialogue(
+                                res.gameObject.GetComponent<GhostController>().dialogue,
+                                res.gameObject,
+                                this.gameObject
+                            ));
+                        }
                         break;
                 }
             }

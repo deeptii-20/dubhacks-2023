@@ -8,14 +8,27 @@ public enum UIType {
     Default = 0,
     EnemyDialogue = 1,
     VillagerDialogue = 2,
+    GameOver = 3,
 }
 
 public class UIManager : MonoBehaviour
 {
+    // in-game
     public GameObject GameOverlay;
     public GameObject TwoResponseDialogue;
     public GameObject OneResponseDialogue;
 
+    // post-game
+    public GameObject GameOverScreen;
+    public string winText = "Victory";
+    public string loseText = "You Lost...";
+
+    public string winFlavorText = "You have brought peace to the village.";
+    public string noVillagersFlavorText = "It seems that all of the villagers went missing somehow";
+    public string angryFlavorText = "You were caught killing villagers";
+
+
+    // ui state
     public UIType currUI;
     public bool isPaused;
     public float baseInputCooldown = 0.5f;
@@ -26,6 +39,7 @@ public class UIManager : MonoBehaviour
         GameOverlay.SetActive(true);
         TwoResponseDialogue.SetActive(false);
         OneResponseDialogue.SetActive(false);
+        GameOverScreen.SetActive(false);
 
         currUI = UIType.Default;
         isPaused = false;
@@ -45,6 +59,21 @@ public class UIManager : MonoBehaviour
             // TODO: update UI with non-drain animation
             GameOverlay.transform.Find("Health Text").GetComponent<TMP_Text>().text = "Health: " + currHealth;
         }
+    }
+
+    public IEnumerator ShowGameOverScreen(bool isWin, string flavorText) {
+        GameOverScreen.transform.Find("Game Over Text").gameObject.GetComponent<TMP_Text>().text = isWin ? winText : loseText;
+        GameOverScreen.transform.Find("Flavor Text").gameObject.GetComponent<TMP_Text>().text = flavorText;
+
+        while (true) {
+            GameOverlay.SetActive(false);
+            OneResponseDialogue.SetActive(false);
+            TwoResponseDialogue.SetActive(false);
+            GameOverScreen.SetActive(true);
+            isPaused = true;
+            yield return null;
+        }
+        yield return null;
     }
 
     public IEnumerator ShowTwoResponseDialogue(string dialogueText, GameObject speaker, GameObject player) {
@@ -97,6 +126,7 @@ public class UIManager : MonoBehaviour
                     // otherwise close the dialogue box
                     OneResponseDialogue.SetActive(false);
                     InteractResponse(player, speaker);
+                    isPaused = false;
                     break;
                 }
                 yield return new WaitForSeconds(0.5f);
@@ -120,23 +150,20 @@ public class UIManager : MonoBehaviour
                 // do nothing
                 break;
         }
-        
+        isPaused = false;
     }
 
     public void InteractNoResponse(GameObject player, GameObject speaker) {
         switch(speaker.tag) {
             case "Enemy":
-                // kill the ghost
-                speaker.GetComponent<GhostController>().Die();
+                // do nothing
                 break;
             case "Villager":
                 // bite the villager
                 player.GetComponent<PlayerController>().KillVillager(speaker);
                 break;
-            default:
-                // do nothing
-                break;
         }
+        isPaused = false;
     }
     public void InteractResponse(GameObject player, GameObject speaker) {
         switch(speaker.tag) {
@@ -161,11 +188,28 @@ public class UIManager : MonoBehaviour
                     ));
                 }
                 break;
-            case "OldMan":  
-                // maybe game over
-                break;
-            default:
-                // do nothing
+            case "OldMan": 
+                // if angry, game over (lose)
+                if (speaker.GetComponent<OldManController>().currState == OldManState.Angry) {
+                    StartCoroutine(ShowGameOverScreen(false, angryFlavorText));
+                }
+                // if no villagers, game over (lose)
+                else if (speaker.GetComponent<OldManController>().numVillagers <= 0) {
+                    StartCoroutine(ShowGameOverScreen(false, noVillagersFlavorText));
+                }
+                // if old man state = win, show game over screen
+                else if (speaker.GetComponent<OldManController>().currState == OldManState.Win) {
+                    StartCoroutine(ShowGameOverScreen(true, winFlavorText));
+                }
+                // if all ghosts captured, show win text
+                else if (speaker.GetComponent<OldManController>().numCapturedGhosts >= speaker.GetComponent<OldManController>().totalNumGhosts) {
+                    speaker.GetComponent<OldManController>().currState = OldManState.Win;
+                    StartCoroutine(ShowOneResponseDialogue(
+                        speaker.GetComponent<OldManController>().winMonument,
+                        speaker,
+                        player
+                    ));
+                }
                 break;
         }
         isPaused = false;
