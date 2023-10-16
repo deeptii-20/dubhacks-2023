@@ -42,7 +42,7 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D rb;
 
     // Player variables
-    private Vector2 facingDirection;
+    public Vector2 facingDirection;
 
     // Dragging variables
     private static float START_DRAG_RADUS = 1.0f;
@@ -51,7 +51,8 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D draggedRb; // whatever we're dragging, if any
     private Vector2 playerPrevPos;
 
-    // villager
+    // instantiated
+    public GameObject peacefulGhost;
     public GameObject ghost;
     public GameObject corpse;
 
@@ -157,13 +158,19 @@ public class PlayerController : MonoBehaviour
 
     public void CaptureGhost(GameObject enemy) {
         numCapturedGhosts++;
-        // TODO: play capture animation + add to ghost trail
+        // destroy ghost and add peaceful ghost to trail
         Destroy(enemy);
+        GameObject pg = Instantiate(peacefulGhost, transform.position, transform.rotation);
+        pg.tag = "Ghost Trail";
     }
 
     public void ReleaseGhosts() {
-        // TODO: play ghost release animation and instantiate in cemetery
-        OldMan.GetComponent<OldManController>().numCapturedGhosts += this.numCapturedGhosts;
+        // TODO: play ghost release animation
+        OldMan.GetComponent<OldManController>().numCapturedGhosts += numCapturedGhosts;
+        foreach (GameObject pg in GameObject.FindGameObjectsWithTag("Ghost Trail")) {
+            Destroy(pg);
+            OldMan.GetComponent<OldManController>().SummonPeacefulGhosts(1);
+        }
         // update UI
         StartCoroutine(UIManager.GetComponent<UIManager>().ShowOneResponseDialogue(
             OldMan.GetComponent<OldManController>().GetMonumentDialogue(numCapturedGhosts > 0),

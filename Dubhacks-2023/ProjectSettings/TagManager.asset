@@ -12,6 +12,7 @@ TagManager:
   - Slash
   - OldMan
   - Enemy
+  - Ghost Trail
   layers:
   - Default
   - TransparentFX
