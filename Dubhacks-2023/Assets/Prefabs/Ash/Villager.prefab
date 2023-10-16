@@ -104,7 +104,12 @@ MonoBehaviour:
   - Pity about all the ghosts, though...
   suspiciousDialogue:
   - I know what you've done...
+  MOVE_SPEED: 10
   vstate: 0
+  VELOCITY_UPDATE_THRESHOLD: 0.03
+  MAX_RANDOM_WEIGHT: 0.5
+  MAX_ENV_DIST_WEIGHT: 1
+  MAX_OLD_MAN_WEIGHT: 1
 --- !u!61 &8886159746855698459
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -141,7 +146,7 @@ Rigidbody2D:
   m_GameObject: {fileID: 2360225722830867618}
   m_BodyType: 1
   m_Simulated: 1
-  m_UseFullKinematicContacts: 0
+  m_UseFullKinematicContacts: 1
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 0
@@ -150,5 +155,5 @@ Rigidbody2D:
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
+  m_CollisionDetection: 1
+  m_Constraints: 4
