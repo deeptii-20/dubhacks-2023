@@ -21,7 +21,7 @@ public class OldManController : MonoBehaviour
 
     // cemetery
     public Vector2 monumentPos = new Vector3(0, 3); // cemetery center
-    public float[] cemeterySize = new float[] {5, 4};   // [width, height]
+    public float[] cemeterySize = new float[] {12, 8};   // [width, height]
 
     // dialogue for talking directly to old man
     public string[] introTalking;   // talk to old man for the first time (no ghosts)
@@ -53,13 +53,28 @@ public class OldManController : MonoBehaviour
     void Update()
     {
         numVillagers = GameObject.FindGameObjectsWithTag("Villager").Length;
+        checkIfAngry();
+    }
+
+    public void checkIfAngry() {
+        // check for angry villagers within cemetery
+        Collider2D[] colliders = Physics2D.OverlapBoxAll(Vector2.zero, new Vector2(cemeterySize[0], cemeterySize[1]), 0);
+        foreach (Collider2D collider in colliders) {
+            // suspicious object = angry villager or corpse
+            bool isSuspicious =
+                collider.gameObject.tag == "Corpse" ||
+                (collider.gameObject.tag == "Villager" && collider.gameObject.GetComponent<VillagerController>().vstate == VillagerState.Suspicious);
+            if (isSuspicious) {
+                currState = OldManState.Angry;
+            }
+        }
     }
 
     public void PlacePeacefulGhost(GameObject ghost) {
             // pick a random location within cemetary bounds
             Vector2 randPos = new Vector2(
-                monumentPos.y + Random.Range(2.0f, cemeterySize[0]) * (Random.Range(0.0f, 1.0f) > 0.5f ? -1 : 1), 
-                monumentPos.y - Random.Range(1.5f, cemeterySize[1])
+                monumentPos.x + Random.Range(2.0f, (cemeterySize[0] / 2.0f) - 1.0f) * (Random.Range(0.0f, 1.0f) > 0.5f ? -1 : 1), 
+                monumentPos.y - Random.Range(1.5f, cemeterySize[1] - monumentPos.y - 1.0f)
             );
             // move ghost to that location and mark as at rest
             StartCoroutine(ghost.GetComponent<PeacefulGhostController>().MoveToRestPos(randPos));
