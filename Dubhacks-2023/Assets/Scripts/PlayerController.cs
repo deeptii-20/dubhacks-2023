@@ -15,7 +15,7 @@ public class PlayerController : MonoBehaviour
     public float baseHealthReplenish = 25;
     public float currHealth;
     private float currHealthDrainCooldown;
-    private int numCapturedGhosts;
+    public int numCapturedGhosts;
 
     // melee combat
     public GameObject slash;

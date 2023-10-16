@@ -49,6 +49,8 @@ public class VillagerController : MonoBehaviour
     private static string OLD_MAN_TAG = "OldMan";
     private static Transform OLD_MAN_TRANSFORM;
 
+    public GameObject UIManager;
+
 
     // Start is called before the first frame update
     void Start()
@@ -67,10 +69,16 @@ public class VillagerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (UIManager.GetComponent<UIManager>().isPaused) {
+            return;
+        }
         CheckForSuspiciousActivity();
     }
     private void FixedUpdate()
     {
+        if (UIManager.GetComponent<UIManager>().isPaused) {
+            return;
+        }
         if (vstate == VillagerState.Suspicious && Random.Range(0f, 1.0f) < VELOCITY_UPDATE_THRESHOLD)
         {
             UpdateVelocity();
