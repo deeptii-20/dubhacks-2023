@@ -13,7 +13,7 @@ public class RandomVillagerCreator : MonoBehaviour
         {
             // Instantiate the object with the random speed
             GameObject spawnedObject = Instantiate(villagerPrefab, transform.position, Quaternion.identity);
-            // spawnedObject.GetComponent<VillagerController>().InitRandomPathfindingVars();
+            spawnedObject.GetComponent<VillagerController>().InitRandomPathfindingVars();
         }
     }
 }

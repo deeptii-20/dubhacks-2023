@@ -18,8 +18,7 @@ public class VillagerController : MonoBehaviour
 
     // General villager fields
     private static Color COLOR_WHEN_SUS = Color.red;
-    public float MOVE_SPEED = 10.0f;
-    private Vector2 facingDirection;
+    private float MOVE_SPEED = 10.0f;
     public VillagerState vstate;
 
     // Body sighting related fields
@@ -28,19 +27,20 @@ public class VillagerController : MonoBehaviour
     private static LayerMask VISION_OCCLUDE_MASK;
     private static string CORPSE_TAG = "Corpse";
     private static string VILLAGER_TAG = "Villager";
+    private Vector2 facingDirection;
 
     // Pathfind to old man static fields
     private static float PATH_RADIUS = 10.0f; // max distance to identify what is a "clear" area to walk
     private static LayerMask PATH_BLOCK_MASK; // pathfinding is only blocked by environment
-    public float VELOCITY_UPDATE_THRESHOLD = 0.03f;
+    private static float VELOCITY_UPDATE_THRESHOLD = 0.01f;
     private static Vector2[] VELOCITY_DIRECTIONS = new Vector2[]{
         new Vector2(-1, 0), new Vector2(-1, 1), new Vector2(0, 1), new Vector2(1, 1),
         new Vector2(1, 0), new Vector2(1, -1), new Vector2(0, -1), new Vector2(-1, -1)
     };
     // Pathfinding: non-static tunable vars, determined by our pathfinding training area
-    public float MAX_RANDOM_WEIGHT = 0.3f; // max weight of the random weight
-    public float MAX_ENV_DIST_WEIGHT = 0.8f;
-    public float MAX_OLD_MAN_WEIGHT = 0.5f;
+    private float MAX_RANDOM_WEIGHT = 0.3f; // max weight of the random weight
+    private float MAX_ENV_DIST_WEIGHT = 0.9f;
+    private float MAX_OLD_MAN_WEIGHT = 0.5f;
 
     // Private
     private Vector2 currVelocity;
