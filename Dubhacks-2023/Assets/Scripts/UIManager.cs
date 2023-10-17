@@ -51,14 +51,12 @@ public class UIManager : MonoBehaviour
 
     }
     
-    public void UpdateHealthOverlay(float currHealth, bool isDrain) {
-        if (isDrain) {
-            // TODO: update UI with drain animation
-            GameOverlay.transform.Find("Health Text").GetComponent<TMP_Text>().text = "Health: " + currHealth;
-        } else {
-            // TODO: update UI with non-drain animation
-            GameOverlay.transform.Find("Health Text").GetComponent<TMP_Text>().text = "Health: " + currHealth;
-        }
+    public void UpdateHealthOverlay(float currHealth, float baseHealth, bool isDrain) {
+        float healthPercentage = currHealth / baseHealth;
+        // TODO: diff animations for drain and no drain
+        GameObject baseHealthBar = GameOverlay.transform.Find("Base Health Bar").gameObject;
+        GameObject currHealthBar = GameOverlay.transform.Find("Curr Health Bar").gameObject;
+        currHealthBar.GetComponent<RectTransform>().sizeDelta = new Vector2(healthPercentage * baseHealthBar.GetComponent<RectTransform>().sizeDelta.x, baseHealthBar.GetComponent<RectTransform>().sizeDelta.y);
     }
 
     public IEnumerator ShowGameOverScreen(bool isWin, string flavorText) {

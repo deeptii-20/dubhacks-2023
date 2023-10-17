@@ -156,13 +156,13 @@ public class PlayerController : MonoBehaviour
 
     public void TakeDamage(float drainAmount, bool isDrain) {
         currHealth = currHealth < drainAmount ? 0 : currHealth - drainAmount;
-        UIManager.GetComponent<UIManager>().UpdateHealthOverlay(currHealth, isDrain);
+        UIManager.GetComponent<UIManager>().UpdateHealthOverlay(currHealth, baseHealth, isDrain);
     }
 
     public void KillVillager(GameObject villager) {
         // update UI
         currHealth = (currHealth + baseHealthReplenish > baseHealth) ? baseHealth :  currHealth + baseHealthReplenish;
-        UIManager.GetComponent<UIManager>().UpdateHealthOverlay(currHealth, false);
+        UIManager.GetComponent<UIManager>().UpdateHealthOverlay(currHealth, baseHealth, false);
         // destroy villager body
         Destroy(villager);
 
