@@ -80,7 +80,7 @@ public class UIManager : MonoBehaviour
 
         // wait 0.5 sec, then show dialogue box
         yield return new WaitForSeconds(0.5f);
-        TwoResponseDialogue.transform.Find("Dialogue Text").gameObject.GetComponent<TMP_Text>().text = dialogueText;
+        TwoResponseDialogue.transform.Find("Background/Dialogue Text").gameObject.GetComponent<TMP_Text>().text = dialogueText;
         TwoResponseDialogue.SetActive(true);
         GameOverlay.SetActive(false);
 
@@ -112,7 +112,7 @@ public class UIManager : MonoBehaviour
 
         // wait 0.5 sec, then show dialogue box
         yield return new WaitForSeconds(0.5f);
-        OneResponseDialogue.transform.Find("Dialogue Text").gameObject.GetComponent<TMP_Text>().text = dialogueText[0];
+        OneResponseDialogue.transform.Find("Background/Dialogue Text").gameObject.GetComponent<TMP_Text>().text = dialogueText[0];
         OneResponseDialogue.SetActive(true);
         GameOverlay.SetActive(false);
 
@@ -125,7 +125,7 @@ public class UIManager : MonoBehaviour
                 if (dialogueIdx < dialogueText.Length - 1) {
                     // if there's another dialogue, show it
                     dialogueIdx++;
-                    OneResponseDialogue.transform.Find("Dialogue Text").gameObject.GetComponent<TMP_Text>().text = dialogueText[dialogueIdx];
+                    OneResponseDialogue.transform.Find("Background/Dialogue Text").gameObject.GetComponent<TMP_Text>().text = dialogueText[dialogueIdx];
                 } else {
                     // otherwise close the dialogue box
                     OneResponseDialogue.SetActive(false);
