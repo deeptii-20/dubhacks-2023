@@ -188,7 +188,6 @@ public class PlayerController : MonoBehaviour
     }
 
     public void ReleaseGhosts() {
-        // TODO: play ghost release animation
         OldMan.GetComponent<OldManController>().numCapturedGhosts += numCapturedGhosts;
         foreach (GameObject pg in GameObject.FindGameObjectsWithTag("Ghost Trail")) {
             pg.tag = "Untagged";

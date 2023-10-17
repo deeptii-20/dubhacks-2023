@@ -104,12 +104,8 @@ MonoBehaviour:
   - Pity about all the ghosts, though...
   suspiciousDialogue:
   - I know what you've done...
-  MOVE_SPEED: 10
   vstate: 0
-  VELOCITY_UPDATE_THRESHOLD: 0.03
-  MAX_RANDOM_WEIGHT: 0.5
-  MAX_ENV_DIST_WEIGHT: 1
-  MAX_OLD_MAN_WEIGHT: 1
+  UIManager: {fileID: 0}
 --- !u!61 &8886159746855698459
 BoxCollider2D:
   m_ObjectHideFlags: 0

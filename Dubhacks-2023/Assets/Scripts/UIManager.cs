@@ -84,17 +84,20 @@ public class UIManager : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
         TwoResponseDialogue.transform.Find("Dialogue Text").gameObject.GetComponent<TMP_Text>().text = dialogueText;
         TwoResponseDialogue.SetActive(true);
+        GameOverlay.SetActive(false);
 
         // wait for users to select an option -> hide dialogue box and act accordingly
         while (true) {
             if (Input.GetAxis("Submit") > 0) {
                 TwoResponseDialogue.SetActive(false);
+                GameOverlay.SetActive(true);
                 InteractYesResponse(player, speaker);
                 isPaused = false;
                 break;
             }
             if (Input.GetAxis("Cancel") > 0) {
                 TwoResponseDialogue.SetActive(false);
+                GameOverlay.SetActive(true);
                 InteractNoResponse(player, speaker);
                 isPaused = false;
                 break;
@@ -112,6 +115,7 @@ public class UIManager : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
         OneResponseDialogue.transform.Find("Dialogue Text").gameObject.GetComponent<TMP_Text>().text = dialogueText[0];
         OneResponseDialogue.SetActive(true);
+        GameOverlay.SetActive(false);
 
         // wait for users to continue
         int dialogueIdx = 0;
@@ -125,6 +129,7 @@ public class UIManager : MonoBehaviour
                 } else {
                     // otherwise close the dialogue box
                     OneResponseDialogue.SetActive(false);
+                    GameOverlay.SetActive(true);
                     InteractResponse(player, speaker);
                     isPaused = false;
                     break;
