@@ -48,6 +48,11 @@ MonoBehaviour:
   TwoResponseDialogue: {fileID: 0}
   OneResponseDialogue: {fileID: 0}
   GameOverScreen: {fileID: 0}
+  winText: Victory
+  loseText: You Lost...
+  winFlavorText: You have brought peace to the village.
+  noVillagersFlavorText: It seems that all of the villagers went missing somehow
+  angryFlavorText: You were caught killing villagers
   currUI: 0
   isPaused: 0
   baseInputCooldown: 0.5

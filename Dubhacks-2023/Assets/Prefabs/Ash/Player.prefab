@@ -154,6 +154,7 @@ MonoBehaviour:
   baseHealthDrainCooldown: 5
   baseHealthReplenish: 25
   currHealth: 0
+  numCapturedGhosts: 0
   slash: {fileID: 6624227569444760133, guid: c305ff18426e8b446bd09d64f44ff454, type: 3}
   meleeAttackDamage: 1
   baseMeleeAttackCooldown: 0.5
