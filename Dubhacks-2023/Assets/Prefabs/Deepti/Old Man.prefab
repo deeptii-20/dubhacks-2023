@@ -158,8 +158,8 @@ MonoBehaviour:
   - 8
   introTalking:
   - Welcome to our small village, traveler from afar.
-  - I wish we could offer you a warmer welcome, but the ghosts plaguing us have become
-    far too many.
+  - I wish we could offer you a warmer welcome, but the ghosts wandering through
+    our village make it difficult to gather.
   - Please, subdue these ghosts and bring them back to this cemetery so that they
     may finally rest peacefully...
   introHasGhostsTalking:
@@ -170,38 +170,41 @@ MonoBehaviour:
   - Oh? I see you've found some ghosts...
   - Please release them at the monument so that they may rest peacefully.
   noGhostsTalking:
-  - I wonder what the villagers think about these ghosts...
+  - I've been in this village for quite some time now.
+  - It's hard to imagine, but the ghosts roaming our lands were once dear friends...
   noVillagersTalking:
-  - Alas, the village has fallen empty. I fear there's no village for you to protect
-    anymore...
+  - I have watched over this village from its birth, in times of peace and of strife,
+    though this is the first time I hear such eerie silence.
+  - There is nothing left for you here, traveler. I suggest you find your next destination.
   angryTalking:
-  - How dare you show your face after murdering one of our own!
-  - Prepare your final words before I strike you down
+  - I know what you've done...
+  - Leave- before I make you.
   introMonument:
   - So eager to explore our little village, you walked right past me!
   - Thank you for putting these ghosts to rest.
-  - I can sense # more ghosts in this village
+  - I can sense # more ghosts in this village.
   introNoGhostsMonument:
   - Hello there, traveler. It seems like you've stumbled upon this cemetery's monument.
-  - Our village has been plagued by restless ghosts as of late.
+  - The ghosts haunting our village have been particularly restless as of late.
   - Please, subdue these ghosts and release them at this monument so that they may
-    rest at last
+    rest at last.
   noGhostsMonument:
   - It appears you don't have any ghosts to release. Try collecting some and come
     back later.
   hasGhostsMonument:
   - 'Thank you for bringing these ghosts to rest, traveler. '
-  - I can sense # more ghosts in this village
+  - I can sense # more ghosts in this village.
   noVillagersMonument:
-  - 'Thank you for bringing these ghosts to rest, traveler. '
-  - Alas, the village has fallen empty. I fear there's no village for you to protect
-    anymore...
+  - 'I''ve watched over this village from it''s birth- through times of peace and
+    times of strife. Never has it been this eerily silent. '
+  - Though the village has fallen empty, I'm glad the ghosts, at least, are at rest.
+  - There is nothing left for you here, traveler. I suggest you find your next destination.
   angryMonument:
-  - Releasing the ghosts of those you've murdered will not save you from retribution
-  - You killed my villagers, prepare to die!!!
+  - I know what you've done... you will gain no forgiveness for releasing their spirits.
+  - Leave this place- before I make you.
   winMonument:
-  - It seems the village is peaceful again at last
-  - Thank you for your help, traveler.
+  - It seems the village ghosts have all been put to rest.
+  - Thank you for your help, traveler. May you find happiness on your journey hereafter.
 --- !u!95 &3229642708002709141
 Animator:
   serializedVersion: 5

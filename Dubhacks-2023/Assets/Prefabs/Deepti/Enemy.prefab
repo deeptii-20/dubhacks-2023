@@ -287,8 +287,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dialogue:
-  - Thank you for bringing me out of my mindless state.
-  - Please, bring me to the cemetery so I might be out to rest at last...
+  - Thank you for saving me from an eternity of anguish.
+  - Please bring me to the cemetery so that I may rest at last.
   defaultState: 0
   currState: 0
   maxHealth: 5

@@ -88,6 +88,7 @@ public class UIManager : MonoBehaviour
 
         // wait for users to select an option -> hide dialogue box and act accordingly
         while (true) {
+            isPaused = true;
             if (Input.GetAxis("Submit") > 0) {
                 TwoResponseDialogue.SetActive(false);
                 GameOverlay.SetActive(true);
@@ -120,6 +121,7 @@ public class UIManager : MonoBehaviour
         // wait for users to continue
         int dialogueIdx = 0;
         while (true) {
+            isPaused = true;
             if (Input.GetButtonDown("Submit")) {
                 // len 2 -> from 0 to < 1
                 if (dialogueIdx < dialogueText.Length - 1) {

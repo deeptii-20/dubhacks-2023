@@ -173,6 +173,10 @@ public class PlayerController : MonoBehaviour
         GameObject g = Instantiate(ghost, (Vector2)villager.transform.position + (Vector2.up * 0.5f), villager.transform.rotation);
         g.GetComponent<GhostController>().UIManager = this.UIManager;
         g.GetComponent<GhostController>().Player = this.gameObject;
+        g.GetComponent<GhostController>().dialogue = new string[] {
+            "To think you betrayed our kindness for your own gain...",
+            "If you feel any remorse for your actions, bring me to the cemetery so that I may rest."
+        };
         OldMan.GetComponent<OldManController>().totalNumGhosts += 1;
     }
 

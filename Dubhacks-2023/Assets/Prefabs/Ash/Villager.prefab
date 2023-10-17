@@ -100,8 +100,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   normalDialogue:
-  - It's a beautiful day!
-  - Pity about all the ghosts, though...
+  - One must wonder who these ghosts were when they were still alive.
+  - Who could deserve an eternity of aimless existence?
   suspiciousDialogue:
   - I know what you've done...
   vstate: 0
